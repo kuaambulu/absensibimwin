@@ -5,7 +5,7 @@
 const CONFIG = {
   // URL Google Apps Script Web App
   // GANTI dengan URL deployment Apps Script Anda
-  API_URL: 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbyLVqQuDnMuu0XxJTt5GdVq6KlOrAQnftxSShFTjRPUtYADFTRFhmuC1lFFJHgjIIpi/exec',
   
   // Environment
   MODE: 'production', // 'development' atau 'production'

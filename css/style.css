@@ -162,6 +162,14 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
 }
 
+/* Error state */
+input.error,
+textarea.error,
+canvas.error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+}
+
 textarea {
   resize: vertical;
   min-height: 80px;
@@ -226,9 +234,8 @@ canvas {
 }
 
 .btn-submit:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
   opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Footer */

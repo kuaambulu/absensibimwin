@@ -50,6 +50,16 @@ body::before {
   border-bottom: 4px solid #15803d;
 }
 
+.logo-image {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(21, 128, 61, 0.3));
+}
+
+/* Fallback for old logo div (if still exists) */
 .logo {
   width: 80px;
   height: 80px;
@@ -285,6 +295,11 @@ canvas {
   .form-row {
     grid-template-columns: 1fr;
   }
+  
+  .logo-image {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 @media (max-width: 640px) {
@@ -302,5 +317,10 @@ canvas {
   
   .couple-section {
     padding: 20px;
+  }
+  
+  .logo-image {
+    width: 70px;
+    height: 70px;
   }
 }

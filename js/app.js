@@ -9,10 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // Validasi final
-    if (!validateFinalForm()) {
-      alert('Mohon lengkapi semua data dengan benar.');
-      return;
+    // Validasi form dan scroll ke error
+    if (!validateAndScrollToError()) {
+      return; // Stop jika ada error
     }
     
     // Collect form data
@@ -66,44 +65,6 @@ function collectFormData() {
     },
     timestamp: new Date().toISOString()
   };
-}
-
-// Final validation before submit
-function validateFinalForm() {
-  // Validasi email
-  const suamiEmail = document.getElementById('suami_email').value;
-  const istriEmail = document.getElementById('istri_email').value;
-  
-  if (!validateEmail(suamiEmail) || !validateEmail(istriEmail)) {
-    alert('Format email tidak valid. Pastikan email mengandung @ dan domain.');
-    return false;
-  }
-  
-  // Validasi NIK
-  const suamiNIK = document.getElementById('suami_nik').value;
-  const istriNIK = document.getElementById('istri_nik').value;
-  
-  if (!validateNIK(suamiNIK) || !validateNIK(istriNIK)) {
-    alert('NIK harus 16 digit angka.');
-    return false;
-  }
-  
-  // Validasi No Telp
-  const suamiTelp = document.getElementById('suami_noTelp').value;
-  const istriTelp = document.getElementById('istri_noTelp').value;
-  
-  if (!validateTelp(suamiTelp) || !validateTelp(istriTelp)) {
-    alert('Nomor telepon harus 10-13 digit angka.');
-    return false;
-  }
-  
-  // Validasi signature
-  if (suamiSignature.isEmpty() || istriSignature.isEmpty()) {
-    alert('Tanda tangan calon suami dan istri harus diisi.');
-    return false;
-  }
-  
-  return true;
 }
 
 // Submit to Google Apps Script
@@ -196,7 +157,15 @@ function showLoading(show) {
 // Enable/disable submit button
 function disableSubmitButton(disable) {
   const submitBtn = document.getElementById('submitBtn');
-  submitBtn.disabled = disable;
+  if (disable) {
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.6';
+    submitBtn.style.cursor = 'not-allowed';
+  } else {
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = '';
+    submitBtn.style.cursor = '';
+  }
 }
 
 // Log app initialization

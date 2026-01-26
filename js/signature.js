@@ -99,8 +99,13 @@ function clearSignature(type) {
     istriSignature.clear();
   }
   
-  // Trigger validation check
-  if (typeof checkFormValidity === 'function') {
-    checkFormValidity();
+  // Remove error styling jika ada
+  const canvas = type === 'suami' ? 
+    document.getElementById('suamiSignatureCanvas') : 
+    document.getElementById('istriSignatureCanvas');
+  
+  if (canvas) {
+    canvas.style.border = '';
+    canvas.style.boxShadow = '';
   }
 }

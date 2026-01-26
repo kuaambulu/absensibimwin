@@ -146,19 +146,18 @@ Edit HTML atau tambahkan file logo di `assets/logo.png`
 
 ## 📝 License
 
-© 2025 KUA Kecamatan Ambulu. All Rights Reserved.
+© 2026 KUA Kecamatan Ambulu. All Rights Reserved.
 
 ## 👨‍💻 Developer
 
-Developed with ❤️ for KUA Kecamatan Ambulu
+Developed with Zainur Rozikin for KUA Kecamatan Ambulu
 
 ## 📞 Support
 
 Untuk bantuan teknis, hubungi:
-- Email: support@kuaambulu.go.id
-- Phone: (0331) xxx-xxx
+- Email: zrozikin11@gmail.com
 
 ---
 
-**Version:** 1.0.0  
-**Last Updated:** January 2025
+**Version:** 1.2.0  
+**Last Updated:** 26 January 2026

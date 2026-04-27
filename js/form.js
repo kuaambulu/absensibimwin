@@ -27,7 +27,7 @@
 // ---- KONFIGURASI ----
 const CONFIG = {
   // Ganti dengan URL Google Apps Script Web App Anda
-  GAS_URL: 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec',
+  GAS_URL: 'https://script.google.com/macros/s/AKfycbyLVqQuDnMuu0XxJTt5GdVq6KlOrAQnftxSShFTjRPUtYADFTRFhmuC1lFFJHgjIIpi/exec',
   DEBUG: false  // set true untuk lihat log di console
 };
 

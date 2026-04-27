@@ -1,161 +1,247 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Absensi Digital KUA Kecamatan Ambulu - Bimbingan Perkawinan Calon Pengantin">
-  <meta name="keywords" content="KUA Ambulu, Bimbingan Perkawinan, Absensi Digital">
-  <title>Absensi BimWin Digital KUA Ambulu</title>
-  <link rel="icon" type="image/png" href="https://kuaambulu.github.io/SIKEN9/asset/logo.png">
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Form Biodata Peserta – Bimbingan Perkawinan KUA Ambulu</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="container">
-    <!-- Header -->
-    <div class="header">
-      <img src="https://kuaambulu.github.io/SIKEN9/asset/logo.png" alt="Logo KUA Ambulu" class="logo-image">
-      <h1>Absensi Bimbingan Perkawinan</h1>
-      <h2>KUA Kecamatan Ambulu</h2>
-      <div class="divider"></div>
-    </div>
 
-    <!-- Form -->
-    <div class="form-container">
-      <div class="success-message" id="successMessage">
-        Data berhasil disimpan! Terima kasih atas partisipasinya.
+  <!-- ===== HALAMAN FORM ===== -->
+  <div id="page-form" class="page active">
+    <div class="container">
+
+      <!-- Header Kop -->
+      <header class="kop-header">
+        <div class="kop-logo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Lambang_Kabupaten_Jember.png/240px-Lambang_Kabupaten_Jember.png"
+               alt="Logo Kemenag" class="kop-logo-img" onerror="this.style.display='none'" />
+        </div>
+        <div class="kop-text">
+          <div class="kop-title">BIODATA PESERTA</div>
+          <div class="kop-sub">Bimbingan Perkawinan Calon Pengantin Mandiri</div>
+          <div class="kop-sub">KUA Kecamatan Ambulu</div>
+          <div class="kop-sub">Kantor Kementerian Agama Kabupaten Jember</div>
+          <div class="kop-tahun">Tahun 2026</div>
+        </div>
+      </header>
+      <div class="kop-divider"></div>
+
+      <!-- Alert Info -->
+      <div class="alert-info">
+        <span class="alert-icon">&#9432;</span>
+        <span>Isi formulir dengan data <strong>sesuai KTP/dokumen resmi</strong>. Pastikan tanggal lahir dipilih dengan benar menggunakan kalender. Setelah dikirim, konfirmasi ke petugas jika ada kesalahan.</span>
       </div>
 
-      <form id="absensiForm">
-        <!-- DATA CALON SUAMI -->
-        <div class="couple-section">
-          <div class="section-title">👨 DATA CALON SUAMI</div>
-          
-          <div class="form-group">
-            <label>Nama Lengkap <span class="required">*</span></label>
-            <input type="text" id="suami_namaLengkap" placeholder="Masukkan nama lengkap calon suami" required>
-          </div>
+      <form id="form-biodata" novalidate>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label>Tempat Lahir <span class="required">*</span></label>
-              <input type="text" id="suami_tempatLahir" placeholder="Contoh: Jakarta" required>
-            </div>
+        <!-- ===== SEKSI SUAMI ===== -->
+        <div class="seksi-header">
+          <div class="seksi-icon">&#128100;</div>
+          <div class="seksi-label">Data Calon Suami</div>
+        </div>
 
-            <div class="form-group">
-              <label>Tanggal Lahir <span class="required">*</span></label>
-              <input type="date" id="suami_tanggalLahir" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Alamat Lengkap <span class="required">*</span></label>
-            <textarea id="suami_alamatLengkap" placeholder="Masukkan alamat lengkap calon suami" required></textarea>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>NIK <span class="required">*</span></label>
-              <input type="text" id="suami_nik" placeholder="16 digit NIK" maxlength="16" pattern="[0-9]{16}" inputmode="numeric" required>
-            </div>
-
-            <div class="form-group">
-              <label>No. Telp/HP <span class="required">*</span></label>
-              <input type="tel" id="suami_noTelp" placeholder="Contoh: 08123456789" pattern="[0-9]{10,13}" inputmode="numeric" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Email <span class="required">*</span></label>
-            <input type="email" id="suami_email" placeholder="Contoh: nama@email.com" required>
-          </div>
-
-          <div class="form-group">
-            <label>Tanda Tangan <span class="required">*</span></label>
-            <div class="signature-container">
-              <canvas id="suamiSignatureCanvas"></canvas>
-              <button type="button" class="btn btn-clear" onclick="clearSignature('suami')">
-                🗑️ Hapus Tanda Tangan
-              </button>
-            </div>
+        <div class="field-row">
+          <div class="field-wrap full">
+            <label for="nama_suami">Nama Lengkap <span class="req">*</span></label>
+            <input type="text" id="nama_suami" name="nama_suami"
+                   placeholder="Nama lengkap sesuai KTP" autocomplete="name" required />
           </div>
         </div>
 
-        <!-- DATA CALON ISTRI -->
-        <div class="couple-section">
-          <div class="section-title">👰 DATA CALON ISTRI</div>
-          
-          <div class="form-group">
-            <label>Nama Lengkap <span class="required">*</span></label>
-            <input type="text" id="istri_namaLengkap" placeholder="Masukkan nama lengkap calon istri" required>
+        <div class="field-row">
+          <div class="field-wrap">
+            <label for="tempat_lahir_suami">Tempat Lahir <span class="req">*</span></label>
+            <input type="text" id="tempat_lahir_suami" name="tempat_lahir_suami"
+                   placeholder="Kota/Kabupaten lahir" required />
           </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Tempat Lahir <span class="required">*</span></label>
-              <input type="text" id="istri_tempatLahir" placeholder="Contoh: Bandung" required>
-            </div>
-
-            <div class="form-group">
-              <label>Tanggal Lahir <span class="required">*</span></label>
-              <input type="date" id="istri_tanggalLahir" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Alamat Lengkap <span class="required">*</span></label>
-            <textarea id="istri_alamatLengkap" placeholder="Masukkan alamat lengkap calon istri" required></textarea>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>NIK <span class="required">*</span></label>
-              <input type="text" id="istri_nik" placeholder="16 digit NIK" maxlength="16" pattern="[0-9]{16}" inputmode="numeric" required>
-            </div>
-
-            <div class="form-group">
-              <label>No. Telp/HP <span class="required">*</span></label>
-              <input type="tel" id="istri_noTelp" placeholder="Contoh: 08123456789" pattern="[0-9]{10,13}" inputmode="numeric" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Email <span class="required">*</span></label>
-            <input type="email" id="istri_email" placeholder="Contoh: nama@email.com" required>
-          </div>
-
-          <div class="form-group">
-            <label>Tanda Tangan <span class="required">*</span></label>
-            <div class="signature-container">
-              <canvas id="istriSignatureCanvas"></canvas>
-              <button type="button" class="btn btn-clear" onclick="clearSignature('istri')">
-                🗑️ Hapus Tanda Tangan
-              </button>
-            </div>
+          <div class="field-wrap">
+            <label for="tgl_lahir_suami">Tanggal Lahir <span class="req">*</span></label>
+            <!-- 
+              FIX BUG: Gunakan type="date" — value SELALU diambil sebagai 
+              string "YYYY-MM-DD" via .value, TIDAK pernah new Date(input.value).
+              Ini mencegah konversi ke tanggal hari ini.
+            -->
+            <input type="date" id="tgl_lahir_suami" name="tgl_lahir_suami"
+                   max="" required />
+            <div class="field-hint">Pilih tanggal lahir sesuai KTP / Akta Kelahiran</div>
           </div>
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-submit" id="submitBtn">
-          📤 Kirim Data
-        </button>
+        <div class="field-row">
+          <div class="field-wrap">
+            <label for="nik_suami">NIK (No. KTP) <span class="req">*</span></label>
+            <input type="text" id="nik_suami" name="nik_suami"
+                   placeholder="16 digit NIK" maxlength="16" inputmode="numeric"
+                   pattern="[0-9]{16}" required />
+          </div>
+          <div class="field-wrap">
+            <label for="telp_suami">No. Telepon / HP <span class="req">*</span></label>
+            <input type="tel" id="telp_suami" name="telp_suami"
+                   placeholder="08xxxxxxxxxx" inputmode="numeric" required />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-wrap full">
+            <label for="alamat_suami">Alamat Lengkap <span class="req">*</span></label>
+            <textarea id="alamat_suami" name="alamat_suami" rows="3"
+                      placeholder="Jalan, RT/RW, Desa/Kelurahan, Kecamatan, Kabupaten" required></textarea>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-wrap full">
+            <label for="email_suami">Alamat Email <span class="req">*</span></label>
+            <input type="email" id="email_suami" name="email_suami"
+                   placeholder="email@contoh.com" required />
+          </div>
+        </div>
+
+        <div class="ttd-section">
+          <div class="ttd-label">Tanda Tangan Suami <span class="req">*</span></div>
+          <div class="ttd-area" id="ttd-wrap-suami">
+            <canvas id="canvas_suami" width="420" height="160"></canvas>
+            <div class="ttd-placeholder" id="placeholder_suami">Tanda tangan di sini</div>
+          </div>
+          <div class="ttd-actions">
+            <button type="button" class="btn-clear-ttd" onclick="clearSignature('suami')">&#10006; Hapus</button>
+          </div>
+        </div>
+
+        <!-- ===== PEMISAH ===== -->
+        <hr class="pemisah" />
+
+        <!-- ===== SEKSI ISTRI ===== -->
+        <div class="seksi-header">
+          <span class="seksi-icon">&#128101;</span>
+          <span class="seksi-label">Data Calon Istri</span>
+        </div>
+
+        <div class="field-row">
+          <div class="field-wrap full">
+            <label for="nama_istri">Nama Lengkap <span class="req">*</span></label>
+            <input type="text" id="nama_istri" name="nama_istri"
+                   placeholder="Nama lengkap sesuai KTP" autocomplete="name" required />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-wrap">
+            <label for="tempat_lahir_istri">Tempat Lahir <span class="req">*</span></label>
+            <input type="text" id="tempat_lahir_istri" name="tempat_lahir_istri"
+                   placeholder="Kota/Kabupaten lahir" required />
+          </div>
+          <div class="field-wrap">
+            <label for="tgl_lahir_istri">Tanggal Lahir <span class="req">*</span></label>
+            <!-- FIX BUG: sama seperti suami — string "YYYY-MM-DD" langsung dari .value -->
+            <input type="date" id="tgl_lahir_istri" name="tgl_lahir_istri"
+                   max="" required />
+            <div class="field-hint">Pilih tanggal lahir sesuai KTP / Akta Kelahiran</div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-wrap">
+            <label for="nik_istri">NIK (No. KTP) <span class="req">*</span></label>
+            <input type="text" id="nik_istri" name="nik_istri"
+                   placeholder="16 digit NIK" maxlength="16" inputmode="numeric"
+                   pattern="[0-9]{16}" required />
+          </div>
+          <div class="field-wrap">
+            <label for="telp_istri">No. Telepon / HP <span class="req">*</span></label>
+            <input type="tel" id="telp_istri" name="telp_istri"
+                   placeholder="08xxxxxxxxxx" inputmode="numeric" required />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-wrap full">
+            <label for="alamat_istri">Alamat Lengkap <span class="req">*</span></label>
+            <textarea id="alamat_istri" name="alamat_istri" rows="3"
+                      placeholder="Jalan, RT/RW, Desa/Kelurahan, Kecamatan, Kabupaten" required></textarea>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field-wrap full">
+            <label for="email_istri">Alamat Email <span class="req">*</span></label>
+            <input type="email" id="email_istri" name="email_istri"
+                   placeholder="email@contoh.com" required />
+          </div>
+        </div>
+
+        <div class="ttd-section">
+          <div class="ttd-label">Tanda Tangan Istri <span class="req">*</span></div>
+          <div class="ttd-area" id="ttd-wrap-istri">
+            <canvas id="canvas_istri" width="420" height="160"></canvas>
+            <div class="ttd-placeholder" id="placeholder_istri">Tanda tangan di sini</div>
+          </div>
+          <div class="ttd-actions">
+            <button type="button" class="btn-clear-ttd" onclick="clearSignature('istri')">&#10006; Hapus</button>
+          </div>
+        </div>
+
+        <!-- Tombol Kirim -->
+        <div class="submit-wrap">
+          <button type="submit" class="btn-kirim" id="btn-kirim">
+            <span id="btn-kirim-text">&#10003;&ensp;Kirim Data Biodata</span>
+            <span id="btn-kirim-loading" class="hidden">&#9203;&ensp;Mengirim data...</span>
+          </button>
+        </div>
+
       </form>
+    </div><!-- /container -->
+  </div><!-- /page-form -->
 
-      <div class="loading" id="loading">
-        Mengirim data, mohon tunggu...
+
+  <!-- ===== HALAMAN SUKSES ===== -->
+  <div id="page-sukses" class="page">
+    <div class="sukses-container">
+      <div class="sukses-kop-strip"></div>
+      <div class="sukses-body">
+        <div class="sukses-icon-wrap">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+            <circle cx="30" cy="30" r="30" fill="#e8f5ef"/>
+            <path d="M16 31L25 40L44 21" stroke="#1a8a56" stroke-width="4.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h1 class="sukses-judul">Data Berhasil Terkirim!</h1>
+        <div class="sukses-divider"></div>
+        <p class="sukses-pesan">
+          Terimakasih Data Anda Telah Tersimpan.<br />
+          Jika ada Kesalahan dalam Mengisi Silahkan<br />
+          Konfirmasi Ke Petugas.
+        </p>
+        <div class="sukses-info-box">
+          <div class="sukses-info-row">
+            <span class="sukses-info-label">Nama Suami</span>
+            <span class="sukses-info-val" id="sukses-nama-suami">—</span>
+          </div>
+          <div class="sukses-info-row">
+            <span class="sukses-info-label">Nama Istri</span>
+            <span class="sukses-info-val" id="sukses-nama-istri">—</span>
+          </div>
+          <div class="sukses-info-row">
+            <span class="sukses-info-label">Waktu Kirim</span>
+            <span class="sukses-info-val" id="sukses-waktu">—</span>
+          </div>
+          <div class="sukses-info-row" id="sukses-doc-row" style="display:none;">
+            <span class="sukses-info-label">Dokumen</span>
+            <a class="sukses-doc-link" id="sukses-doc-link" href="#" target="_blank">Buka Biodata &#8599;</a>
+          </div>
+        </div>
+        <div class="sukses-badge">KUA Ambulu &mdash; Kantor Kementerian Agama Kabupaten Jember 2026</div>
       </div>
+      <div class="sukses-kop-strip"></div>
     </div>
+  </div><!-- /page-sukses -->
 
-    <!-- Footer -->
-    <div class="footer">
-      <p>© <span id="year"></span> KUA Kecamatan Ambulu. All Rights Reserved.</p>
-      <p>By_zainur48</p>
-    </div>
-  </div>
-
-  <!-- External Scripts -->
-  <script src="js/config.js"></script>
   <script src="js/signature.js"></script>
-  <script src="js/validation.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/form.js"></script>
 </body>
 </html>

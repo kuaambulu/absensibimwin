@@ -1,163 +1,186 @@
-# 📋 Absensi Digital KUA Ambulu
+# Form Biodata Peserta — Bimbingan Perkawinan KUA Ambulu
 
-Sistem absensi digital untuk peserta bimbingan perkawinan calon pengantin di KUA Kecamatan Ambulu.
-
-## 🌟 Fitur
-
-- ✅ Form input data calon suami dan istri
-- ✅ Validasi real-time
-- ✅ Signature canvas untuk tanda tangan digital
-- ✅ Responsive design (mobile & desktop)
-- ✅ Integrasi dengan Google Sheets
-- ✅ Auto-generate Google Docs biodata
-- ✅ Desain modern dengan motif batik
-
-## 🚀 Live Demo
-
-**Production URL:** [https://username.github.io/absensi-kua-ambulu/](https://username.github.io/absensi-kua-ambulu/)
-
-## 📁 Struktur File
-
-```
-absensi-kua-ambulu/
-├── index.html              # Main HTML file
-├── css/
-│   └── style.css          # Stylesheet
-├── js/
-│   ├── config.js          # Configuration
-│   ├── signature.js       # Signature canvas handler
-│   ├── validation.js      # Form validation
-│   └── app.js             # Main application logic
-├── README.md              # Documentation
-└── .gitignore             # Git ignore file
-```
-
-## 🔧 Setup & Installation
-
-### 1. Clone Repository
-
-```bash
-git clone https://github.com/username/absensi-kua-ambulu.git
-cd absensi-kua-ambulu
-```
-
-### 2. Konfigurasi API
-
-Edit file `js/config.js`:
-
-```javascript
-const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec',
-  MODE: 'production'
-};
-```
-
-Ganti `YOUR_DEPLOYMENT_ID` dengan ID deployment Google Apps Script Anda.
-
-### 3. Deploy ke GitHub Pages
-
-1. Push ke GitHub:
-```bash
-git add .
-git commit -m "Initial commit"
-git push origin main
-```
-
-2. Aktifkan GitHub Pages:
-   - Buka repository Settings
-   - Scroll ke Pages
-   - Source: Deploy from branch `main`
-   - Folder: `/ (root)`
-   - Save
-
-3. Tunggu 1-2 menit, akses via:
-   `https://username.github.io/absensi-kua-ambulu/`
-
-## 🔗 Backend Integration
-
-Backend menggunakan Google Apps Script. File backend tersedia di:
-- [Google Apps Script Code](https://script.google.com/home)
-
-### Setup Backend:
-
-1. Buat Google Spreadsheet baru
-2. Rename sheet menjadi "HADIR"
-3. Extensions → Apps Script
-4. Copy kode dari file `backend/Code.gs`
-5. Deploy sebagai Web App
-6. Copy URL deployment ke `js/config.js`
-
-## 📊 Data Fields
-
-### Calon Suami & Istri:
-- Nama Lengkap
-- Tempat Lahir
-- Tanggal Lahir
-- Alamat Lengkap
-- NIK (16 digit)
-- No. Telp/HP (10-13 digit)
-- Email
-- Tanda Tangan (digital signature)
-
-## 🎨 Customization
-
-### Ubah Warna Tema
-
-Edit `css/style.css`:
-
-```css
-/* Hijau Kemenag */
---primary-color: #15803d;
---secondary-color: #22c55e;
-```
-
-### Ubah Logo
-
-Edit HTML atau tambahkan file logo di `assets/logo.png`
-
-## 🔐 Security
-
-- CORS handled dengan `mode: 'no-cors'`
-- Data dikirim via HTTPS
-- Validasi client-side & server-side
-- No sensitive data di frontend
-
-## 📱 Browser Support
-
-- ✅ Chrome (recommended)
-- ✅ Firefox
-- ✅ Safari
-- ✅ Edge
-- ✅ Mobile browsers
-
-## 🐛 Troubleshooting
-
-### Data tidak masuk ke Google Sheets
-
-1. Cek URL API di `config.js`
-2. Pastikan Apps Script deployed dengan "Who has access: Anyone"
-3. Cek browser console untuk error
-
-### Signature tidak berfungsi
-
-1. Cek browser support untuk Canvas API
-2. Clear browser cache
-3. Test di browser lain
-
-## 📝 License
-
-© 2026 KUA Kecamatan Ambulu. All Rights Reserved.
-
-## 👨‍💻 Developer
-
-Developed with Zainur Rozikin for KUA Kecamatan Ambulu
-
-## 📞 Support
-
-Untuk bantuan teknis, hubungi:
-- Email: zrozikin11@gmail.com
+Aplikasi web pengisian biodata calon pengantin untuk kegiatan **Bimbingan Perkawinan Mandiri** di KUA Kecamatan Ambulu, Kantor Kementerian Agama Kabupaten Jember.
 
 ---
 
-**Version:** 1.2.0  
-**Last Updated:** 26 January 2026
+## Fitur Utama
+
+- Form pengisian biodata calon suami dan istri
+- Kolom tanda tangan digital langsung di browser (canvas)
+- Integrasi otomatis ke **Google Sheets** (sheet HADIR & LAPORAN_BULANAN)
+- Generate dokumen **Google Docs** dari template biodata
+- Halaman konfirmasi setelah data berhasil dikirim
+- Desain responsif — bisa digunakan di HP maupun laptop
+
+---
+
+## Struktur File
+
+```
+kua-absensi/
+├── index.html          # Halaman utama (form + halaman sukses)
+├── css/
+│   └── style.css       # Tampilan — skema warna hijau Kemenag + emas
+├── js/
+│   ├── form.js         # Logic submit, validasi, navigasi halaman
+│   └── signature.js    # Signature pad berbasis canvas HTML5
+├── Kode.gs             # Google Apps Script backend
+└── README.md           # Dokumentasi ini
+```
+
+---
+
+## Bug Fix — Tanggal Lahir Selalu Menjadi Hari Ini
+
+### Akar Masalah
+
+Bug ini menyebabkan kolom **Tanggal Lahir Suami** dan **Tanggal Lahir Istri** di Google Sheets terisi dengan tanggal pada saat peserta mengisi form, bukan tanggal lahir sebenarnya.
+
+Ada tiga lapisan bug yang saling berkaitan:
+
+#### Bug 1 — Frontend: konversi `new Date()` saat submit
+
+```js
+// ❌ KODE LAMA (bug) — membuat Date object baru dari value input,
+//    lalu memanggil .toLocaleDateString() yang menghasilkan format
+//    berbeda-beda tergantung locale browser. Di beberapa konfigurasi,
+//    ini mengembalikan tanggal hari ini atau hari yang salah.
+const tglLahir = new Date(document.getElementById('tgl_lahir_suami').value)
+                   .toLocaleDateString('id-ID');
+
+// ✅ FIX — ambil .value langsung, format manual tanpa konstruktor Date
+const raw = document.getElementById('tgl_lahir_suami').value; // "YYYY-MM-DD"
+const tglLahir = formatTanggalIndo(raw); // "12 Mei 2000" — stabil, tidak bergantung locale
+```
+
+Fungsi `formatTanggalIndo()` memecah string `"YYYY-MM-DD"` menggunakan `.split('-')` dan menyusun kembali dengan nama bulan Indonesia — **tanpa menyentuh konstruktor `new Date()`** sama sekali.
+
+#### Bug 2 — Backend `Kode.gs`: Google Sheets auto-parse string tanggal
+
+```js
+// ❌ KODE LAMA (bug) — Google Sheets mendeteksi string tanggal seperti
+//    "2000-05-12" atau "12/05/2000" dan secara otomatis mengkonversinya
+//    ke objek Date internal Sheets, lalu menampilkannya sesuai format
+//    locale spreadsheet — kadang jadi tanggal hari ini jika parse gagal.
+sheet.getRange(row, 4).setValue(personData.tanggalLahir);
+
+// ✅ FIX — dua lapisan perlindungan:
+// Lapisan 1: paksa format plain text agar Sheets tidak auto-parse
+sheet.getRange(row, 4).setNumberFormat('@STRING@');
+// Lapisan 2: simpan nilai — karena format sudah @STRING@, tidak ada konversi
+sheet.getRange(row, 4).setValue(personData.tanggalLahir); // "12 Mei 2000"
+```
+
+Selain itu, `setupHeaderTemplate()` kini juga mengeset format `@STRING@` pada seluruh kolom 4 (100 baris) sejak awal, sebagai perlindungan global.
+
+#### Bug 3 — Template header Sheet: kolom Tanggal Lahir tidak diproteksi
+
+Format kolom 4 pada sheet `HADIR` tidak di-set dari awal, sehingga setiap sel baru di kolom tersebut mengikuti format default Sheets (Auto) yang memungkinkan auto-parse.
+
+**Fix:** Tambahkan `setNumberFormat('@STRING@')` pada 100 baris pertama kolom 4 di dalam `setupHeaderTemplate()`.
+
+---
+
+## Cara Setup
+
+### 1. Google Apps Script
+
+1. Buka [script.google.com](https://script.google.com) → buat project baru
+2. Salin isi `Kode.gs` ke editor
+3. Sesuaikan konfigurasi di bagian atas:
+
+```js
+const CONFIG_BACKEND = {
+  SHEET_NAME     : 'HADIR',
+  SHEET_LAPORAN  : 'LAPORAN_BULANAN',
+  TEMPLATE_DOC_ID: 'ID_TEMPLATE_GOOGLE_DOCS_ANDA',
+  FOLDER_ID      : 'ID_FOLDER_GOOGLE_DRIVE_ANDA'
+};
+```
+
+4. Klik **Deploy → New Deployment** → tipe: **Web App**
+   - Execute as: **Me**
+   - Who has access: **Anyone**
+5. Salin URL deployment
+
+### 2. Frontend
+
+Buka `js/form.js` dan ganti URL di bagian konfigurasi:
+
+```js
+const CONFIG = {
+  GAS_URL: 'https://script.google.com/macros/s/SCRIPT_ID_ANDA/exec',
+  DEBUG  : false
+};
+```
+
+### 3. Template Google Docs
+
+Template harus mengandung placeholder berikut (persis, termasuk kurung kurawal ganda):
+
+| Placeholder         | Keterangan               |
+|---------------------|--------------------------|
+| `{{NAMA_SUAMI}}`    | Nama lengkap suami       |
+| `{{TEMPAT_LAHIR_SUAMI}}` | Tempat lahir suami  |
+| `{{TGL_LAHIR_SUAMI}}`    | Tanggal lahir suami |
+| `{{ALAMAT_SUAMI}}`  | Alamat suami             |
+| `{{NIK_SUAMI}}`     | NIK suami                |
+| `{{TELP_SUAMI}}`    | No HP suami              |
+| `{{EMAIL_SUAMI}}`   | Email suami              |
+| `[TTD_SUAMI]`       | Gambar tanda tangan suami|
+| `{{NAMA_ISTRI}}`    | Nama lengkap istri       |
+| `{{TEMPAT_LAHIR_ISTRI}}` | Tempat lahir istri  |
+| `{{TGL_LAHIR_ISTRI}}`    | Tanggal lahir istri |
+| `{{ALAMAT_ISTRI}}`  | Alamat istri             |
+| `{{NIK_ISTRI}}`     | NIK istri                |
+| `{{TELP_ISTRI}}`    | No HP istri              |
+| `{{EMAIL_ISTRI}}`   | Email istri              |
+| `[TTD_ISTRI]`       | Gambar tanda tangan istri|
+
+---
+
+## Format Data yang Dikirim ke Backend
+
+```json
+{
+  "suami": {
+    "namaLengkap"  : "Ahmad Fauzi",
+    "tempatLahir"  : "Jember",
+    "tanggalLahir" : "12 Mei 2000",
+    "alamatLengkap": "Jl. Ambulu No.10, RT 01/02, Desa Ambulu",
+    "nik"          : "3509012345670001",
+    "noTelp"       : "081234567890",
+    "email"        : "ahmad@email.com",
+    "tandaTangan"  : "data:image/png;base64,..."
+  },
+  "istri": { ... }
+}
+```
+
+> **Catatan penting:** `tanggalLahir` selalu dikirim sebagai string `"DD Bulan YYYY"` (contoh: `"12 Mei 2000"`), **bukan** sebagai objek Date, ISO string, atau timestamp. Ini adalah bagian inti dari fix bug.
+
+---
+
+## Dependensi
+
+Tidak ada dependensi npm. Semua berjalan dengan:
+
+- HTML5 Canvas API (tanda tangan)
+- Vanilla JavaScript (ES2017+)
+- Google Fonts — Plus Jakarta Sans (via CDN, opsional)
+- Google Apps Script (backend, deploy terpisah)
+
+---
+
+## Catatan Pengembang
+
+- Set `DEBUG: true` di `js/form.js` untuk melihat log nilai tanggal lahir di console browser
+- Jika `GAS_URL` belum dikonfigurasi (`YOUR_SCRIPT_ID` masih ada), form berjalan dalam **mode demo** — data tidak dikirim ke mana-mana, tapi halaman sukses tetap muncul
+- File `Kode.gs` adalah versi **v2.0.0** dengan semua bug fix sudah diterapkan
+
+---
+
+## Lisensi
+
+Dikembangkan untuk keperluan internal KUA Kecamatan Ambulu — Kementerian Agama Kabupaten Jember.

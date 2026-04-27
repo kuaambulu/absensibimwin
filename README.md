@@ -184,3 +184,42 @@ Tidak ada dependensi npm. Semua berjalan dengan:
 ## Lisensi
 
 Dikembangkan untuk keperluan internal KUA Kecamatan Ambulu — Kementerian Agama Kabupaten Jember.
+
+---
+
+## Troubleshooting — "Failed to fetch" (Error CORS)
+
+### Penyebab
+`fetch()` dengan header `Content-Type: application/json` memicu **preflight OPTIONS request** yang tidak didukung Google Apps Script → seluruh request diblokir browser.
+
+### Solusi yang Diterapkan (v2.1.0)
+
+`js/form.js` menggunakan fungsi `kirimKeGAS()` dengan **2 strategi berlapis**:
+
+**Strategi 1 — `fetch no-cors` + `URLSearchParams`**
+
+Tanpa custom header, browser menganggap ini *simple request* — tidak ada preflight. GAS membaca data via `e.parameter.data`.
+
+```js
+const formData = new URLSearchParams();
+formData.append('data', JSON.stringify(payload));
+await fetch(GAS_URL, { method: 'POST', mode: 'no-cors', body: formData });
+```
+
+**Strategi 2 — Hidden `<form>` + `<iframe>` (fallback otomatis)**
+
+Form HTML biasa di-submit via iframe tersembunyi. CORS tidak berlaku untuk form submission HTML standar.
+
+### Perubahan `Kode.gs` (v2.1.0)
+
+`doPost()` kini membaca dari dua sumber:
+
+```js
+if (e.parameter && e.parameter.data) {
+  rawData = e.parameter.data;          // dari fetch no-cors
+} else if (e.postData && e.postData.contents) {
+  rawData = e.postData.contents;       // dari fetch JSON (fallback)
+}
+```
+
+> **Penting:** Setelah update `Kode.gs`, buat **New Deployment** baru di Google Apps Script (bukan edit deployment lama). Salin URL deployment baru ke `CONFIG.GAS_URL` di `js/form.js`.

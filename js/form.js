@@ -152,12 +152,50 @@ function validateForm() {
 // ============================================
 
 function showPage(pageId) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Sembunyikan semua page dengan inline style (lebih kuat dari class CSS)
+  document.querySelectorAll('.page').forEach(p => {
+    p.style.display = 'none';
+  });
   const target = document.getElementById(pageId);
   if (target) {
-    target.classList.add('active');
+    // page-sukses butuh flex agar kontennya center
+    target.style.display = (pageId === 'page-sukses') ? 'flex' : 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+}
+
+// ============================================
+// RESET FORM — Isi Absensi Peserta Baru
+// ============================================
+function resetFormBaru() {
+  // Reset semua field input dan textarea
+  const form = document.getElementById('form-biodata');
+  if (form) form.reset();
+
+  // Hapus semua tanda tangan
+  clearSignature('suami');
+  clearSignature('istri');
+
+  // Hapus semua error styling
+  document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+
+  // Reset info sukses
+  document.getElementById('sukses-nama-suami').textContent = '—';
+  document.getElementById('sukses-nama-istri').textContent  = '—';
+  document.getElementById('sukses-waktu').textContent       = '—';
+  const docRow = document.getElementById('sukses-doc-row');
+  if (docRow) docRow.style.display = 'none';
+
+  // Reset tombol kirim
+  const btnKirim = document.getElementById('btn-kirim');
+  const btnText  = document.getElementById('btn-kirim-text');
+  const btnLoad  = document.getElementById('btn-kirim-loading');
+  if (btnKirim) btnKirim.disabled = false;
+  if (btnText)  btnText.classList.remove('hidden');
+  if (btnLoad)  btnLoad.classList.add('hidden');
+
+  // Kembali ke form dan scroll ke atas
+  showPage('page-form');
 }
 
 // ============================================

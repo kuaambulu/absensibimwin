@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Absensi dan Form Biodata Peserta – Bimbingan Perkawinan KUA Ambulu</title>
+  <title>Form Biodata Peserta – Bimbingan Perkawinan KUA Ambulu</title>
   <link rel="stylesheet" href="css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -11,7 +11,7 @@
 <body>
 
   <!-- ===== HALAMAN FORM ===== -->
-  <div id="page-form" class="page active">
+  <div id="page-form" class="page" style="display:block;">
     <div class="container">
 
       <!-- Header Kop -->
@@ -22,8 +22,8 @@
         </div>
         <div class="kop-text">
           <div class="kop-title">ABSENSI DAN BIODATA PESERTA</div>
-          <div class="kop-sub">Bimbingan Perkawinan Calon Pengantin Mandiri</div>
-          <div class="kop-sub">KUA Kecamatan Ambulu</div>
+          <div class="kop-sub">Bimbingan Perkawinan Calon Pengantin</div>
+          <div class="kop-sub">KUA Ambulu</div>
           <div class="kop-sub">Kantor Kementerian Agama Kabupaten Jember</div>
           <div class="kop-tahun">Tahun 2026</div>
         </div>
@@ -199,45 +199,61 @@
 
 
   <!-- ===== HALAMAN SUKSES ===== -->
-  <div id="page-sukses" class="page">
-    <div class="sukses-container">
-      <div class="sukses-kop-strip"></div>
-      <div class="sukses-body">
-        <div class="sukses-icon-wrap">
-          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="60" height="60">
-            <circle cx="30" cy="30" r="30" fill="#e8f5ef"/>
-            <path d="M16 31L25 40L44 21" stroke="#1a8a56" stroke-width="4.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+  <div id="page-sukses" class="page" style="display:none;">
+    <div class="sukses-outer">
+      <div class="sukses-container">
+        <div class="sukses-kop-strip"></div>
+        <div class="sukses-body">
+
+          <!-- Ikon centang animasi -->
+          <div class="sukses-icon-wrap">
+            <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+              <circle cx="30" cy="30" r="30" fill="#e8f5ef"/>
+              <path d="M16 31L25 40L44 21" stroke="#1a8a56" stroke-width="4.5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+
+          <h1 class="sukses-judul">Data Berhasil Terkirim!</h1>
+          <div class="sukses-divider"></div>
+
+          <p class="sukses-pesan">
+            Terimakasih Data Anda Telah Tersimpan.<br />
+            Jika ada Kesalahan dalam Mengisi Silahkan<br />
+            Konfirmasi Ke Petugas.
+          </p>
+
+          <!-- Ringkasan data -->
+          <div class="sukses-info-box">
+            <div class="sukses-info-row">
+              <span class="sukses-info-label">&#128100; Nama Suami</span>
+              <span class="sukses-info-val" id="sukses-nama-suami">—</span>
+            </div>
+            <div class="sukses-info-row">
+              <span class="sukses-info-label">&#128101; Nama Istri</span>
+              <span class="sukses-info-val" id="sukses-nama-istri">—</span>
+            </div>
+            <div class="sukses-info-row">
+              <span class="sukses-info-label">&#128337; Waktu Kirim</span>
+              <span class="sukses-info-val" id="sukses-waktu">—</span>
+            </div>
+            <div class="sukses-info-row" id="sukses-doc-row" style="display:none;">
+              <span class="sukses-info-label">&#128196; Dokumen</span>
+              <a class="sukses-doc-link" id="sukses-doc-link" href="#" target="_blank">Buka Biodata &#8599;</a>
+            </div>
+          </div>
+
+          <!-- Tombol aksi -->
+          <div class="sukses-btn-group">
+            <button type="button" class="btn-isi-baru" onclick="resetFormBaru()">
+              &#43;&ensp;Isi Absensi Peserta Baru
+            </button>
+          </div>
+
+          <div class="sukses-badge">KUA Kecamatan Ambulu &mdash; Kemenag Jember 2026</div>
         </div>
-        <h1 class="sukses-judul">Data Berhasil Terkirim!</h1>
-        <div class="sukses-divider"></div>
-        <p class="sukses-pesan">
-          Terimakasih Data Anda Telah Tersimpan.<br />
-          Jika ada Kesalahan dalam Mengisi Silahkan<br />
-          Konfirmasi Ke Petugas.
-        </p>
-        <div class="sukses-info-box">
-          <div class="sukses-info-row">
-            <span class="sukses-info-label">Nama Suami</span>
-            <span class="sukses-info-val" id="sukses-nama-suami">—</span>
-          </div>
-          <div class="sukses-info-row">
-            <span class="sukses-info-label">Nama Istri</span>
-            <span class="sukses-info-val" id="sukses-nama-istri">—</span>
-          </div>
-          <div class="sukses-info-row">
-            <span class="sukses-info-label">Waktu Kirim</span>
-            <span class="sukses-info-val" id="sukses-waktu">—</span>
-          </div>
-          <div class="sukses-info-row" id="sukses-doc-row" style="display:none;">
-            <span class="sukses-info-label">Dokumen</span>
-            <a class="sukses-doc-link" id="sukses-doc-link" href="#" target="_blank">Buka Biodata &#8599;</a>
-          </div>
-        </div>
-        <div class="sukses-badge">KUA Ambulu &mdash; Kantor Kementerian Agama Kabupaten Jember 2026</div>
+        <div class="sukses-kop-strip"></div>
       </div>
-      <div class="sukses-kop-strip"></div>
     </div>
   </div><!-- /page-sukses -->
 

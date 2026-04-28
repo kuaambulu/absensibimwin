@@ -41,8 +41,9 @@ body {
 }
 
 /* ---- Page System ---- */
+/* Inline style di HTML adalah penentu utama (display:block / display:none).
+   Class .page hanya sebagai fallback default — sembunyikan jika tidak ada inline style. */
 .page { display: none; }
-.page.active { display: block; }
 
 /* ============================================
    FORM PAGE
@@ -320,10 +321,39 @@ form,
 
 .hidden { display: none !important; }
 
+
+/* ---- Tombol Isi Absensi Baru ---- */
+.sukses-btn-group {
+  margin: 1.5rem 0 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-isi-baru {
+  width: 100%;
+  padding: 13px 20px;
+  background: linear-gradient(135deg, var(--hijau-tua), var(--hijau-muda));
+  color: var(--putih);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.97rem;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(13,92,58,0.22);
+  transition: opacity var(--transition), transform 0.1s;
+}
+
+.btn-isi-baru:hover  { opacity: 0.90; }
+.btn-isi-baru:active { transform: scale(0.99); }
+
 /* ============================================
    HALAMAN SUKSES
    ============================================ */
-#page-sukses {
+/* ===== WRAPPER SUKSES ===== */
+.sukses-outer {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -331,8 +361,6 @@ form,
   padding: 2rem 1rem;
   background: var(--abu-bg);
 }
-
-#page-sukses.active { display: flex; }
 
 .sukses-container {
   background: var(--putih);

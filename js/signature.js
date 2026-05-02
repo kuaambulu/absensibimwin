@@ -1,153 +1,157 @@
-/* ============================================
-   SIGNATURE.JS — Canvas Signature Pad
-   KUA Ambulu Biodata Form
-   ============================================ */
+// ============================================
+// SIGNATURE CANVAS HANDLER - FIXED VERSION
+// ============================================
 
-'use strict';
-
-/**
- * State tanda tangan per orang.
- * Kunci: 'suami' | 'istri'
- */
-const signaturePads = {};
-
-/**
- * Inisialisasi signature pad pada canvas.
- * @param {string} who - 'suami' | 'istri'
- */
-function initSignature(who) {
-  const canvas      = document.getElementById('canvas_' + who);
-  const wrap        = document.getElementById('ttd-wrap-' + who);
-  const placeholder = document.getElementById('placeholder_' + who);
-
-  if (!canvas) return;
-
-  const ctx = canvas.getContext('2d');
-
-  // Atur resolusi canvas sesuai DPR untuk tampilan tajam di Retina
-  function resizeCanvas() {
-    const dpr  = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-    canvas.width  = rect.width  * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
-    ctx.strokeStyle = '#1a2a1f';
-    ctx.lineWidth   = 2.2;
-    ctx.lineCap     = 'round';
-    ctx.lineJoin    = 'round';
+class SignatureCanvas {
+  constructor(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    this.ctx = this.canvas.getContext('2d');
+    this.isDrawing = false;
+    this.hasSignature = false;
+    
+    this.init();
   }
-
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  const state = {
-    drawing: false,
-    hasDrawing: false,
-    lastX: 0,
-    lastY: 0,
-    ctx,
-    canvas,
-    wrap,
-    placeholder
-  };
-
-  signaturePads[who] = state;
-
-  // ---- Helper: koordinat relatif ke canvas ----
-  function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    const src  = e.touches ? e.touches[0] : e;
+  
+  init() {
+    this.resize();
+    this.addEventListeners();
+    
+    // Re-init after fonts/images load
+    window.addEventListener('load', () => this.resize());
+    window.addEventListener('resize', () => this.resize());
+  }
+  
+  resize() {
+    // Save existing drawing
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = this.canvas.width;
+    tempCanvas.height = this.canvas.height;
+    tempCtx.drawImage(this.canvas, 0, 0);
+    
+    // Get actual rendered size
+    const rect = this.canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    
+    const displayWidth = rect.width || 300;
+    const displayHeight = rect.height || 200;
+    
+    this.canvas.width = displayWidth * dpr;
+    this.canvas.height = displayHeight * dpr;
+    
+    this.ctx.scale(dpr, dpr);
+    
+    // PENTING: Set background putih agar tidak transparan / ikut dark mode
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.fillRect(0, 0, displayWidth, displayHeight);
+    
+    // Set drawing style
+    this.ctx.strokeStyle = '#000000';
+    this.ctx.lineWidth = 2;
+    this.ctx.lineCap = 'round';
+    this.ctx.lineJoin = 'round';
+    
+    // Restore previous drawing jika ada
+    if (this.hasSignature && tempCanvas.width > 0 && tempCanvas.height > 0) {
+      this.ctx.drawImage(tempCanvas, 0, 0, displayWidth, displayHeight);
+    }
+  }
+  
+  addEventListeners() {
+    // Mouse events
+    this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
+    this.canvas.addEventListener('mousemove', (e) => this.draw(e));
+    this.canvas.addEventListener('mouseup', () => this.stopDrawing());
+    this.canvas.addEventListener('mouseleave', () => this.stopDrawing());
+    
+    // Touch events
+    this.canvas.addEventListener('touchstart', (e) => { e.preventDefault(); this.startDrawing(e); }, { passive: false });
+    this.canvas.addEventListener('touchmove', (e) => { e.preventDefault(); this.draw(e); }, { passive: false });
+    this.canvas.addEventListener('touchend', () => this.stopDrawing());
+  }
+  
+  getPos(e) {
+    const rect = this.canvas.getBoundingClientRect();
+    if (e.touches && e.touches.length > 0) {
+      return {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top
+      };
+    }
     return {
-      x: src.clientX - rect.left,
-      y: src.clientY - rect.top
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
     };
   }
-
-  // ---- Event: mulai menggambar ----
-  function onStart(e) {
-    e.preventDefault();
-    state.drawing = true;
-    const pos = getPos(e);
-    state.lastX = pos.x;
-    state.lastY = pos.y;
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-    wrap.classList.add('active');
-    placeholder.classList.add('hidden');
+  
+  startDrawing(e) {
+    this.isDrawing = true;
+    const pos = this.getPos(e);
+    this.ctx.beginPath();
+    this.ctx.moveTo(pos.x, pos.y);
   }
-
-  // ---- Event: gerakan menggambar ----
-  function onMove(e) {
-    if (!state.drawing) return;
-    e.preventDefault();
-    const pos = getPos(e);
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-    state.lastX = pos.x;
-    state.lastY = pos.y;
-    state.hasDrawing = true;
+  
+  draw(e) {
+    if (!this.isDrawing) return;
+    const pos = this.getPos(e);
+    this.ctx.lineTo(pos.x, pos.y);
+    this.ctx.stroke();
+    this.hasSignature = true;
+    
+    // Hapus error styling saat mulai menggambar
+    this.canvas.classList.remove('error');
+    this.canvas.style.border = '';
+    this.canvas.style.boxShadow = '';
   }
-
-  // ---- Event: selesai menggambar ----
-  function onEnd(e) {
-    if (!state.drawing) return;
-    e.preventDefault();
-    state.drawing = false;
-    ctx.beginPath();
-    wrap.classList.remove('active');
+  
+  stopDrawing() {
+    this.isDrawing = false;
   }
-
-  // Mouse events
-  canvas.addEventListener('mousedown',  onStart);
-  canvas.addEventListener('mousemove',  onMove);
-  canvas.addEventListener('mouseup',    onEnd);
-  canvas.addEventListener('mouseleave', onEnd);
-
-  // Touch events
-  canvas.addEventListener('touchstart', onStart, { passive: false });
-  canvas.addEventListener('touchmove',  onMove,  { passive: false });
-  canvas.addEventListener('touchend',   onEnd,   { passive: false });
+  
+  clear() {
+    const rect = this.canvas.getBoundingClientRect();
+    const displayWidth = rect.width || this.canvas.width;
+    const displayHeight = rect.height || this.canvas.height;
+    
+    // Bersihkan dan isi ulang dengan putih
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.fillRect(0, 0, displayWidth, displayHeight);
+    this.hasSignature = false;
+  }
+  
+  isEmpty() {
+    return !this.hasSignature;
+  }
+  
+  toDataURL() {
+    return this.canvas.toDataURL('image/png');
+  }
 }
 
-/**
- * Hapus tanda tangan pada canvas.
- * @param {string} who - 'suami' | 'istri'
- */
-function clearSignature(who) {
-  const state = signaturePads[who];
-  if (!state) return;
+// Initialize signature canvases
+let suamiSignature, istriSignature;
 
-  const { ctx, canvas, wrap, placeholder } = state;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  state.hasDrawing = false;
-  wrap.classList.remove('error');
-  placeholder.classList.remove('hidden');
-}
-
-/**
- * Ambil data tanda tangan sebagai base64 PNG.
- * @param {string} who - 'suami' | 'istri'
- * @returns {string|null} - base64 PNG string, atau null jika kosong
- */
-function getSignatureData(who) {
-  const state = signaturePads[who];
-  if (!state || !state.hasDrawing) return null;
-  return state.canvas.toDataURL('image/png');
-}
-
-/**
- * Cek apakah tanda tangan sudah diisi.
- * @param {string} who - 'suami' | 'istri'
- * @returns {boolean}
- */
-function hasSignature(who) {
-  return !!(signaturePads[who] && signaturePads[who].hasDrawing);
-}
-
-// Inisialisasi saat halaman siap
-document.addEventListener('DOMContentLoaded', () => {
-  initSignature('suami');
-  initSignature('istri');
+document.addEventListener('DOMContentLoaded', function() {
+  suamiSignature = new SignatureCanvas('suamiSignatureCanvas');
+  istriSignature = new SignatureCanvas('istriSignatureCanvas');
 });
+
+// Clear signature function (called from HTML)
+function clearSignature(type) {
+  if (type === 'suami') {
+    suamiSignature.clear();
+  } else if (type === 'istri') {
+    istriSignature.clear();
+  }
+  
+  // Remove error styling
+  const canvas = type === 'suami' ? 
+    document.getElementById('suamiSignatureCanvas') : 
+    document.getElementById('istriSignatureCanvas');
+  
+  if (canvas) {
+    canvas.classList.remove('error');
+    canvas.style.border = '';
+    canvas.style.boxShadow = '';
+  }
+}

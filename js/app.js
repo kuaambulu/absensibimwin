@@ -2,39 +2,29 @@
 // MAIN APPLICATION LOGIC
 // ============================================
 
-// Submit form handler
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('absensiForm');
   
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // Validasi form dan scroll ke error
     if (!validateAndScrollToError()) {
-      return; // Stop jika ada error
+      return;
     }
     
-    // Collect form data
     const formData = collectFormData();
     
-    // Debug log
     if (CONFIG.DEBUG) {
       console.log('Form Data:', formData);
     }
     
-    // Show loading
     showLoading(true);
     disableSubmitButton(true);
     
     try {
-      // Send to Google Apps Script
       const response = await submitToGoogleScript(formData);
-      
-      // Handle success
       handleSubmitSuccess(response);
-      
     } catch (error) {
-      // Handle error
       handleSubmitError(error);
     }
   });
@@ -75,7 +65,7 @@ async function submitToGoogleScript(formData) {
   try {
     const response = await fetch(CONFIG.API_URL, {
       method: 'POST',
-      mode: 'no-cors', // Required untuk CORS dengan Apps Script
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -84,9 +74,6 @@ async function submitToGoogleScript(formData) {
     });
     
     clearTimeout(timeoutId);
-    
-    // Note: mode 'no-cors' tidak bisa membaca response
-    // Jadi kita asumsikan sukses jika tidak ada error
     return { success: true };
     
   } catch (error) {
@@ -104,7 +91,6 @@ async function submitToGoogleScript(formData) {
 function handleSubmitSuccess(response) {
   showLoading(false);
   
-  // Show success message
   const successMsg = document.getElementById('successMessage');
   successMsg.classList.add('active');
   
@@ -113,16 +99,24 @@ function handleSubmitSuccess(response) {
   suamiSignature.clear();
   istriSignature.clear();
   
-  // Scroll to top
+  // Reset custom date picker displays
+  const dateDisplays = ['suami_tanggalLahir_display', 'istri_tanggalLahir_display'];
+  dateDisplays.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.querySelector('.date-display-text').textContent = 'Pilih tanggal lahir';
+      el.classList.remove('has-value');
+      el.style.color = '#9ca3af';
+    }
+  });
+  
   window.scrollTo({ top: 0, behavior: 'smooth' });
   
-  // Hide success message after 5 seconds
   setTimeout(() => {
     successMsg.classList.remove('active');
     disableSubmitButton(false);
   }, 5000);
   
-  // Log success
   if (CONFIG.DEBUG) {
     console.log('Submit success:', response);
   }
@@ -136,7 +130,6 @@ function handleSubmitError(error) {
   console.error('Submit error:', error);
   
   let errorMessage = CONFIG.MESSAGES.ERROR;
-  
   if (error.message) {
     errorMessage += '\n\nDetail: ' + error.message;
   }
@@ -168,7 +161,6 @@ function disableSubmitButton(disable) {
   }
 }
 
-// Log app initialization
 if (CONFIG.DEBUG) {
   console.log('Absensi Digital KUA Ambulu - Initialized');
   console.log('Environment:', CONFIG.MODE);

@@ -1,5 +1,5 @@
 // ============================================
-// FORM VALIDATION
+// FORM VALIDATION - FIXED VERSION
 // ============================================
 
 // Format tanggal ke Bahasa Indonesia
@@ -9,17 +9,19 @@ function formatTanggalIndonesia(dateString) {
     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
   ];
   
-  const date = new Date(dateString);
-  const tanggal = date.getDate();
-  const bulan = bulanIndo[date.getMonth()];
-  const tahun = date.getFullYear();
+  if (!dateString) return '';
+  const parts = dateString.split('-');
+  if (parts.length !== 3) return dateString;
   
-  return `${tanggal} ${bulan} ${tahun}`;
+  const tahun = parseInt(parts[0]);
+  const bulan = parseInt(parts[1]) - 1;
+  const tanggal = parseInt(parts[2]);
+  
+  return `${tanggal} ${bulanIndo[bulan]} ${tahun}`;
 }
 
-// Check form validity - TIDAK lagi disable button
+// Check form validity
 function checkFormValidity() {
-  // Tombol selalu enabled - validasi akan dilakukan saat submit
   const submitBtn = document.getElementById('submitBtn');
   submitBtn.disabled = false;
 }
@@ -30,171 +32,91 @@ function validateAndScrollToError() {
   
   // Validasi SUAMI
   if (!document.getElementById('suami_namaLengkap').value.trim()) {
-    errors.push({
-      element: document.getElementById('suami_namaLengkap'),
-      message: 'Nama Lengkap Calon Suami harus diisi'
-    });
+    errors.push({ element: document.getElementById('suami_namaLengkap'), message: 'Nama Lengkap Calon Suami harus diisi' });
   }
-  
   if (!document.getElementById('suami_tempatLahir').value.trim()) {
-    errors.push({
-      element: document.getElementById('suami_tempatLahir'),
-      message: 'Tempat Lahir Calon Suami harus diisi'
-    });
+    errors.push({ element: document.getElementById('suami_tempatLahir'), message: 'Tempat Lahir Calon Suami harus diisi' });
   }
-  
   if (!document.getElementById('suami_tanggalLahir').value) {
-    errors.push({
-      element: document.getElementById('suami_tanggalLahir'),
-      message: 'Tanggal Lahir Calon Suami harus diisi'
-    });
+    errors.push({ element: document.getElementById('suami_tanggalLahir'), message: 'Tanggal Lahir Calon Suami harus diisi' });
   }
-  
   if (!document.getElementById('suami_alamatLengkap').value.trim()) {
-    errors.push({
-      element: document.getElementById('suami_alamatLengkap'),
-      message: 'Alamat Lengkap Calon Suami harus diisi'
-    });
+    errors.push({ element: document.getElementById('suami_alamatLengkap'), message: 'Alamat Lengkap Calon Suami harus diisi' });
   }
-  
   if (!document.getElementById('suami_nik').value.trim()) {
-    errors.push({
-      element: document.getElementById('suami_nik'),
-      message: 'NIK Calon Suami harus diisi'
-    });
+    errors.push({ element: document.getElementById('suami_nik'), message: 'NIK Calon Suami harus diisi' });
   } else if (!validateNIK(document.getElementById('suami_nik').value.trim())) {
-    errors.push({
-      element: document.getElementById('suami_nik'),
-      message: 'NIK Calon Suami harus 16 digit angka'
-    });
+    errors.push({ element: document.getElementById('suami_nik'), message: 'NIK Calon Suami harus 16 digit angka' });
   }
-  
   if (!document.getElementById('suami_noTelp').value.trim()) {
-    errors.push({
-      element: document.getElementById('suami_noTelp'),
-      message: 'No. Telp/HP Calon Suami harus diisi'
-    });
+    errors.push({ element: document.getElementById('suami_noTelp'), message: 'No. Telp/HP Calon Suami harus diisi' });
   } else if (!validateTelp(document.getElementById('suami_noTelp').value.trim())) {
-    errors.push({
-      element: document.getElementById('suami_noTelp'),
-      message: 'No. Telp/HP Calon Suami harus 10-13 digit angka'
-    });
+    errors.push({ element: document.getElementById('suami_noTelp'), message: 'No. Telp/HP Calon Suami harus 10-13 digit angka' });
   }
-  
   if (!document.getElementById('suami_email').value.trim()) {
-    errors.push({
-      element: document.getElementById('suami_email'),
-      message: 'Email Calon Suami harus diisi'
-    });
+    errors.push({ element: document.getElementById('suami_email'), message: 'Email Calon Suami harus diisi' });
   } else if (!validateEmail(document.getElementById('suami_email').value.trim())) {
-    errors.push({
-      element: document.getElementById('suami_email'),
-      message: 'Format email Calon Suami tidak valid'
-    });
+    errors.push({ element: document.getElementById('suami_email'), message: 'Format email Calon Suami tidak valid' });
   }
   
-  if (suamiSignature.isEmpty()) {
-    errors.push({
-      element: document.getElementById('suamiSignatureCanvas'),
-      message: 'Tanda Tangan Calon Suami harus diisi'
-    });
+  // Validasi TTD Suami - cek via isEmpty()
+  if (typeof suamiSignature !== 'undefined' && suamiSignature.isEmpty()) {
+    const canvas = document.getElementById('suamiSignatureCanvas');
+    errors.push({ element: canvas, message: 'Tanda Tangan Calon Suami harus diisi' });
   }
   
   // Validasi ISTRI
   if (!document.getElementById('istri_namaLengkap').value.trim()) {
-    errors.push({
-      element: document.getElementById('istri_namaLengkap'),
-      message: 'Nama Lengkap Calon Istri harus diisi'
-    });
+    errors.push({ element: document.getElementById('istri_namaLengkap'), message: 'Nama Lengkap Calon Istri harus diisi' });
   }
-  
   if (!document.getElementById('istri_tempatLahir').value.trim()) {
-    errors.push({
-      element: document.getElementById('istri_tempatLahir'),
-      message: 'Tempat Lahir Calon Istri harus diisi'
-    });
+    errors.push({ element: document.getElementById('istri_tempatLahir'), message: 'Tempat Lahir Calon Istri harus diisi' });
   }
-  
   if (!document.getElementById('istri_tanggalLahir').value) {
-    errors.push({
-      element: document.getElementById('istri_tanggalLahir'),
-      message: 'Tanggal Lahir Calon Istri harus diisi'
-    });
+    errors.push({ element: document.getElementById('istri_tanggalLahir'), message: 'Tanggal Lahir Calon Istri harus diisi' });
   }
-  
   if (!document.getElementById('istri_alamatLengkap').value.trim()) {
-    errors.push({
-      element: document.getElementById('istri_alamatLengkap'),
-      message: 'Alamat Lengkap Calon Istri harus diisi'
-    });
+    errors.push({ element: document.getElementById('istri_alamatLengkap'), message: 'Alamat Lengkap Calon Istri harus diisi' });
   }
-  
   if (!document.getElementById('istri_nik').value.trim()) {
-    errors.push({
-      element: document.getElementById('istri_nik'),
-      message: 'NIK Calon Istri harus diisi'
-    });
+    errors.push({ element: document.getElementById('istri_nik'), message: 'NIK Calon Istri harus diisi' });
   } else if (!validateNIK(document.getElementById('istri_nik').value.trim())) {
-    errors.push({
-      element: document.getElementById('istri_nik'),
-      message: 'NIK Calon Istri harus 16 digit angka'
-    });
+    errors.push({ element: document.getElementById('istri_nik'), message: 'NIK Calon Istri harus 16 digit angka' });
   }
-  
   if (!document.getElementById('istri_noTelp').value.trim()) {
-    errors.push({
-      element: document.getElementById('istri_noTelp'),
-      message: 'No. Telp/HP Calon Istri harus diisi'
-    });
+    errors.push({ element: document.getElementById('istri_noTelp'), message: 'No. Telp/HP Calon Istri harus diisi' });
   } else if (!validateTelp(document.getElementById('istri_noTelp').value.trim())) {
-    errors.push({
-      element: document.getElementById('istri_noTelp'),
-      message: 'No. Telp/HP Calon Istri harus 10-13 digit angka'
-    });
+    errors.push({ element: document.getElementById('istri_noTelp'), message: 'No. Telp/HP Calon Istri harus 10-13 digit angka' });
   }
-  
   if (!document.getElementById('istri_email').value.trim()) {
-    errors.push({
-      element: document.getElementById('istri_email'),
-      message: 'Email Calon Istri harus diisi'
-    });
+    errors.push({ element: document.getElementById('istri_email'), message: 'Email Calon Istri harus diisi' });
   } else if (!validateEmail(document.getElementById('istri_email').value.trim())) {
-    errors.push({
-      element: document.getElementById('istri_email'),
-      message: 'Format email Calon Istri tidak valid'
-    });
+    errors.push({ element: document.getElementById('istri_email'), message: 'Format email Calon Istri tidak valid' });
   }
   
-  if (istriSignature.isEmpty()) {
-    errors.push({
-      element: document.getElementById('istriSignatureCanvas'),
-      message: 'Tanda Tangan Calon Istri harus diisi'
-    });
+  // Validasi TTD Istri
+  if (typeof istriSignature !== 'undefined' && istriSignature.isEmpty()) {
+    const canvas = document.getElementById('istriSignatureCanvas');
+    errors.push({ element: canvas, message: 'Tanda Tangan Calon Istri harus diisi' });
   }
   
-  // Jika ada error, tampilkan dan scroll ke field pertama yang error
   if (errors.length > 0) {
     const firstError = errors[0];
     
-    // Highlight field yang error
-    firstError.element.style.border = '2px solid #ef4444';
-    firstError.element.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
-    
-    // Focus ke element
-    firstError.element.focus();
-    
-    // Scroll smooth ke element
-    firstError.element.scrollIntoView({ 
-      behavior: 'smooth', 
-      block: 'center' 
+    // Highlight semua field error
+    errors.forEach(err => {
+      err.element.style.border = '2px solid #ef4444';
+      err.element.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
     });
     
-    // Tampilkan alert dengan semua error
+    // Focus & scroll ke error pertama
+    firstError.element.focus();
+    firstError.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
     let errorMessage = 'Silakan isi kolom dengan benar:\n\n';
     errors.slice(0, 5).forEach((error, index) => {
       errorMessage += `${index + 1}. ${error.message}\n`;
     });
-    
     if (errors.length > 5) {
       errorMessage += `\n... dan ${errors.length - 5} error lainnya`;
     }
@@ -203,8 +125,10 @@ function validateAndScrollToError() {
     
     // Reset border setelah 3 detik
     setTimeout(() => {
-      firstError.element.style.border = '';
-      firstError.element.style.boxShadow = '';
+      errors.forEach(err => {
+        err.element.style.border = '';
+        err.element.style.boxShadow = '';
+      });
     }, 3000);
     
     return false;
@@ -221,21 +145,16 @@ function removeErrorStyling(element) {
 
 // Validasi numeric only untuk NIK dan No Telp
 function setupNumericValidation() {
-  const numericFields = [
-    'suami_nik', 'suami_noTelp',
-    'istri_nik', 'istri_noTelp'
-  ];
+  const numericFields = ['suami_nik', 'suami_noTelp', 'istri_nik', 'istri_noTelp'];
 
   numericFields.forEach(fieldId => {
     const field = document.getElementById(fieldId);
     
-    // Filter input - hanya angka
     field.addEventListener('input', function(e) {
       this.value = this.value.replace(/[^0-9]/g, '');
       removeErrorStyling(this);
     });
 
-    // Prevent paste non-numeric
     field.addEventListener('paste', function(e) {
       e.preventDefault();
       const pastedText = (e.clipboardData || window.clipboardData).getData('text');
@@ -244,13 +163,208 @@ function setupNumericValidation() {
       removeErrorStyling(this);
     });
 
-    // Prevent non-numeric keypress
     field.addEventListener('keypress', function(e) {
       const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
       if (e.key && !/[0-9]/.test(e.key) && !allowedKeys.includes(e.key)) {
         e.preventDefault();
       }
     });
+  });
+}
+
+// ============================================
+// CUSTOM DATE PICKER - Mobile Friendly
+// ============================================
+function setupCustomDatePickers() {
+  const dateFields = [
+    { hiddenId: 'suami_tanggalLahir', displayId: 'suami_tanggalLahir_display' },
+    { hiddenId: 'istri_tanggalLahir', displayId: 'istri_tanggalLahir_display' }
+  ];
+
+  dateFields.forEach(field => {
+    const display = document.getElementById(field.displayId);
+    const hidden = document.getElementById(field.hiddenId);
+    if (display) {
+      display.addEventListener('click', () => openDatePicker(field.hiddenId));
+      display.addEventListener('keypress', (e) => { if (e.key === 'Enter' || e.key === ' ') openDatePicker(field.hiddenId); });
+    }
+  });
+}
+
+function openDatePicker(hiddenId) {
+  // Tutup picker yang sudah terbuka
+  const existing = document.getElementById('customDatePickerOverlay');
+  if (existing) existing.remove();
+
+  const hidden = document.getElementById(hiddenId);
+  const currentVal = hidden.value; // "YYYY-MM-DD" or ""
+  
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  
+  let selYear = currentVal ? parseInt(currentVal.split('-')[0]) : currentYear - 25;
+  let selMonth = currentVal ? parseInt(currentVal.split('-')[1]) - 1 : today.getMonth();
+  let selDay = currentVal ? parseInt(currentVal.split('-')[2]) : today.getDate();
+  
+  const minYear = 1930;
+  const maxYear = currentYear - 17; // minimal 17 tahun
+
+  // Buat overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'customDatePickerOverlay';
+  overlay.style.cssText = `
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  `;
+
+  const picker = document.createElement('div');
+  picker.style.cssText = `
+    background: #fff; border-radius: 16px; padding: 24px;
+    width: 100%; max-width: 340px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    color: #111; font-family: 'Segoe UI', sans-serif;
+  `;
+
+  function renderPicker() {
+    const bulanIndo = ['Januari','Februari','Maret','April','Mei','Juni',
+                        'Juli','Agustus','September','Oktober','November','Desember'];
+    const daysInMonth = new Date(selYear, selMonth + 1, 0).getDate();
+    if (selDay > daysInMonth) selDay = daysInMonth;
+
+    // Buat array tahun
+    const years = [];
+    for (let y = maxYear; y >= minYear; y--) years.push(y);
+
+    picker.innerHTML = `
+      <div style="text-align:center; margin-bottom:16px;">
+        <div style="font-size:15px; font-weight:700; color:#15803d; margin-bottom:4px;">Pilih Tanggal Lahir</div>
+        <div style="font-size:13px; color:#6b7280;">Pilih tahun, bulan, lalu tanggal</div>
+      </div>
+
+      <!-- TAHUN & BULAN -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#374151; margin-bottom:4px;">Tahun</label>
+          <select id="dp_year" style="width:100%; padding:10px 8px; border:2px solid #bbf7d0; border-radius:8px; font-size:15px; color:#111; background:#fff; -webkit-appearance:auto;">
+            ${years.map(y => `<option value="${y}" ${y === selYear ? 'selected' : ''}>${y}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:12px; font-weight:600; color:#374151; margin-bottom:4px;">Bulan</label>
+          <select id="dp_month" style="width:100%; padding:10px 8px; border:2px solid #bbf7d0; border-radius:8px; font-size:14px; color:#111; background:#fff; -webkit-appearance:auto;">
+            ${bulanIndo.map((b, i) => `<option value="${i}" ${i === selMonth ? 'selected' : ''}>${b}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+
+      <!-- GRID TANGGAL -->
+      <div style="margin-bottom:16px;">
+        <label style="display:block; font-size:12px; font-weight:600; color:#374151; margin-bottom:8px;">Tanggal</label>
+        <div id="dp_days" style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px;">
+          ${['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(d => 
+            `<div style="text-align:center; font-size:11px; font-weight:600; color:#9ca3af; padding:4px 0;">${d}</div>`
+          ).join('')}
+          ${buildDayGrid(selYear, selMonth, selDay)}
+        </div>
+      </div>
+
+      <!-- PREVIEW -->
+      <div id="dp_preview" style="text-align:center; padding:10px; background:#f0fdf4; border-radius:8px; margin-bottom:16px; font-size:14px; color:#15803d; font-weight:600;">
+        ${selDay} ${bulanIndo[selMonth]} ${selYear}
+      </div>
+
+      <!-- TOMBOL -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <button id="dp_cancel" style="padding:12px; border:2px solid #e5e7eb; background:#fff; color:#374151; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;">Batal</button>
+        <button id="dp_confirm" style="padding:12px; border:none; background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;">Pilih</button>
+      </div>
+    `;
+
+    // Event listeners
+    picker.querySelector('#dp_year').addEventListener('change', (e) => {
+      selYear = parseInt(e.target.value);
+      renderPicker();
+      attachDayListeners();
+    });
+    picker.querySelector('#dp_month').addEventListener('change', (e) => {
+      selMonth = parseInt(e.target.value);
+      renderPicker();
+      attachDayListeners();
+    });
+    picker.querySelector('#dp_cancel').addEventListener('click', () => overlay.remove());
+    picker.querySelector('#dp_confirm').addEventListener('click', () => {
+      const mm = String(selMonth + 1).padStart(2, '0');
+      const dd = String(selDay).padStart(2, '0');
+      hidden.value = `${selYear}-${mm}-${dd}`;
+      
+      // Update display
+      const displayId = hiddenId + '_display';
+      const displayEl = document.getElementById(displayId);
+      if (displayEl) {
+        const bulanIndo = ['Januari','Februari','Maret','April','Mei','Juni',
+                            'Juli','Agustus','September','Oktober','November','Desember'];
+        displayEl.textContent = `${selDay} ${bulanIndo[selMonth]} ${selYear}`;
+        displayEl.style.color = '#111';
+        removeErrorStyling(displayEl);
+        removeErrorStyling(hidden);
+      }
+      overlay.remove();
+    });
+
+    attachDayListeners();
+  }
+
+  function buildDayGrid(year, month, activeDay) {
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    let html = '';
+    
+    // Empty cells sebelum hari pertama
+    for (let i = 0; i < firstDay; i++) {
+      html += '<div></div>';
+    }
+    
+    for (let d = 1; d <= daysInMonth; d++) {
+      const isActive = d === activeDay;
+      html += `<button class="dp_day" data-day="${d}" style="
+        padding:7px 2px; border:none; border-radius:6px; font-size:13px; cursor:pointer;
+        font-weight:${isActive ? '700' : '400'};
+        background:${isActive ? '#15803d' : 'transparent'};
+        color:${isActive ? '#fff' : '#374151'};
+        transition: background 0.15s;
+      ">${d}</button>`;
+    }
+    return html;
+  }
+
+  function attachDayListeners() {
+    picker.querySelectorAll('.dp_day').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selDay = parseInt(btn.dataset.day);
+        renderPicker();
+        attachDayListeners();
+      });
+      btn.addEventListener('mouseover', () => {
+        if (parseInt(btn.dataset.day) !== selDay) {
+          btn.style.background = '#dcfce7';
+        }
+      });
+      btn.addEventListener('mouseout', () => {
+        if (parseInt(btn.dataset.day) !== selDay) {
+          btn.style.background = 'transparent';
+        }
+      });
+    });
+  }
+
+  renderPicker();
+  overlay.appendChild(picker);
+  document.body.appendChild(overlay);
+  
+  // Tutup jika klik di luar
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.remove();
   });
 }
 
@@ -273,20 +387,14 @@ function validateTelp(telp) {
 
 // Initialize validation
 document.addEventListener('DOMContentLoaded', function() {
-  // Setup numeric validation
   setupNumericValidation();
+  setupCustomDatePickers();
   
-  // Add input listeners untuk remove error styling
   const inputs = document.querySelectorAll('input, textarea');
   inputs.forEach(input => {
-    input.addEventListener('input', function() {
-      removeErrorStyling(this);
-    });
-    input.addEventListener('change', function() {
-      removeErrorStyling(this);
-    });
+    input.addEventListener('input', function() { removeErrorStyling(this); });
+    input.addEventListener('change', function() { removeErrorStyling(this); });
   });
   
-  // Set current year di footer
   document.getElementById('year').textContent = new Date().getFullYear();
 });

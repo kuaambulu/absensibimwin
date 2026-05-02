@@ -105,7 +105,8 @@ function handleSubmitSuccess(response) {
   dateDisplays.forEach(id => {
     const el = document.getElementById(id);
     if (el) {
-      el.querySelector('.date-display-text').textContent = 'Pilih tanggal lahir';
+      const textEl = el.querySelector('.date-display-text');
+      if (textEl) textEl.textContent = 'Pilih tanggal lahir';
       el.classList.remove('has-value');
       el.style.color = '#9ca3af';
     }
@@ -125,16 +126,36 @@ function handleSubmitSuccess(response) {
                    String(now.getMinutes()).padStart(2,'0') + ':' +
                    String(now.getSeconds()).padStart(2,'0') + ' WIB';
   
-  document.getElementById('buktiWaktu').textContent = waktuStr;
-  document.getElementById('bukti_suami_nama').textContent = namaS;
-  document.getElementById('bukti_istri_nama').textContent = namaI;
-  document.getElementById('buktiYear').textContent = now.getFullYear();
-  
-  // Sembunyikan halaman form, tampilkan halaman sukses
-  document.querySelector('.container').style.display = 'none';
+  // Cek apakah halaman sukses tersedia di DOM
   const sp = document.getElementById('successPage');
-  sp.style.display = 'flex';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (sp) {
+    // Halaman sukses ada — isi dan tampilkan
+    const elWaktu  = document.getElementById('buktiWaktu');
+    const elSuami  = document.getElementById('bukti_suami_nama');
+    const elIstri  = document.getElementById('bukti_istri_nama');
+    const elYear   = document.getElementById('buktiYear');
+
+    if (elWaktu)  elWaktu.textContent  = waktuStr;
+    if (elSuami)  elSuami.textContent  = namaS;
+    if (elIstri)  elIstri.textContent  = namaI;
+    if (elYear)   elYear.textContent   = now.getFullYear();
+
+    document.querySelector('.container').style.display = 'none';
+    sp.style.display = 'flex';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } else {
+    // Fallback: index.html belum diupdate — tampilkan pesan sukses biasa
+    const successMsg = document.getElementById('successMessage');
+    if (successMsg) {
+      successMsg.innerHTML = '&#10003; Data berhasil disimpan! (' + waktuStr + ')<br>Calon Suami: <strong>' + namaS + '</strong> &nbsp;|&nbsp; Calon Istri: <strong>' + namaI + '</strong>';
+      successMsg.classList.add('active');
+    } else {
+      alert('Data berhasil disimpan!\n\nWaktu: ' + waktuStr + '\nCalon Suami: ' + namaS + '\nCalon Istri: ' + namaI);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   
   if (CONFIG.DEBUG) {
     console.log('Submit success:', response);

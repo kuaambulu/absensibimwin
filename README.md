@@ -149,7 +149,7 @@ Setelah form berhasil dikirim, halaman form digantikan oleh **halaman bukti pend
 - **Status sukses** — ikon centang hijau besar dengan teks konfirmasi
 - **Waktu real-time** — hari, tanggal, bulan, tahun, jam:menit:detik WIB saat data terkirim
 - **Nama calon suami & istri** yang baru saja didaftarkan
-- **Catatan penting** untuk menyimpan bukti
+- **Catatan** Ucapan terimakasih 
 - **Tombol "Isi Form Baru"** — kembali ke form kosong untuk peserta berikutnya
 
 ---

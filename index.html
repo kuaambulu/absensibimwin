@@ -164,6 +164,77 @@
     </div>
   </div>
 
+  <!-- HALAMAN SUKSES - Bukti Pendaftaran -->
+  <div id="successPage" class="success-page" style="display:none;">
+    <div class="success-page-inner">
+
+      <!-- Kop Surat -->
+      <div class="bukti-header">
+        <div class="bukti-kop">
+          <img src="https://kuaambulu.github.io/SIKEN9/asset/logo.png" alt="Logo KUA" class="bukti-logo">
+          <div class="bukti-kop-text">
+            <div class="bukti-instansi">KEMENTERIAN AGAMA REPUBLIK INDONESIA</div>
+            <div class="bukti-kantor">KANTOR URUSAN AGAMA KECAMATAN AMBULU</div>
+            <div class="bukti-alamat">Jl. Jember No. 1, Ambulu, Kabupaten Jember, Jawa Timur</div>
+          </div>
+        </div>
+        <div class="bukti-garis-top"></div>
+        <div class="bukti-judul-wrap">
+          <div class="bukti-judul">BUKTI PENDAFTARAN</div>
+          <div class="bukti-subjudul">BIMBINGAN PERKAWINAN CALON PENGANTIN</div>
+        </div>
+      </div>
+
+      <!-- Ikon & Status -->
+      <div class="bukti-status">
+        <div class="bukti-centang">&#10003;</div>
+        <div class="bukti-status-text">Data Berhasil Disimpan</div>
+        <div class="bukti-waktu-label">Waktu Pendaftaran:</div>
+        <div class="bukti-waktu" id="buktiWaktu">-</div>
+      </div>
+
+      <!-- Tabel Data -->
+      <div class="bukti-body">
+        <div class="bukti-section-label">&#128104; Calon Suami</div>
+        <table class="bukti-tabel">
+          <tr>
+            <td class="bukti-td-label">Nama Lengkap</td>
+            <td class="bukti-td-sep">:</td>
+            <td class="bukti-td-val" id="bukti_suami_nama">-</td>
+          </tr>
+        </table>
+
+        <div class="bukti-section-label" style="margin-top:16px;">&#128112; Calon Istri</div>
+        <table class="bukti-tabel">
+          <tr>
+            <td class="bukti-td-label">Nama Lengkap</td>
+            <td class="bukti-td-sep">:</td>
+            <td class="bukti-td-val" id="bukti_istri_nama">-</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Catatan -->
+      <div class="bukti-catatan">
+        <p>Harap simpan bukti ini sebagai tanda telah mendaftarkan kehadiran pada kegiatan Bimbingan Perkawinan di KUA Kecamatan Ambulu.</p>
+      </div>
+
+      <!-- Tombol -->
+      <div class="bukti-actions">
+        <button class="btn btn-new-form" onclick="kembaliKeForm()">
+          &#128221; Isi Form Baru
+        </button>
+      </div>
+
+      <!-- Footer Struk -->
+      <div class="bukti-footer">
+        <div class="bukti-garis-bottom"></div>
+        <p>&#169; <span id="buktiYear"></span> KUA Kecamatan Ambulu &nbsp;|&nbsp; By_zainur48</p>
+      </div>
+
+    </div>
+  </div>
+
   <!-- External Scripts -->
   <script src="js/config.js"></script>
   <script src="js/signature.js"></script>

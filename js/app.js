@@ -91,8 +91,9 @@ async function submitToGoogleScript(formData) {
 function handleSubmitSuccess(response) {
   showLoading(false);
   
-  const successMsg = document.getElementById('successMessage');
-  successMsg.classList.add('active');
+  // Ambil nama suami & istri sebelum form di-reset
+  const namaS = document.getElementById('suami_namaLengkap').value.trim();
+  const namaI = document.getElementById('istri_namaLengkap').value.trim();
   
   // Reset form
   document.getElementById('absensiForm').reset();
@@ -110,16 +111,41 @@ function handleSubmitSuccess(response) {
     }
   });
   
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  disableSubmitButton(false);
   
-  setTimeout(() => {
-    successMsg.classList.remove('active');
-    disableSubmitButton(false);
-  }, 5000);
+  // Isi data ke halaman sukses
+  const now = new Date();
+  const hariIndo = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+  const bulanIndo = ['Januari','Februari','Maret','April','Mei','Juni',
+                     'Juli','Agustus','September','Oktober','November','Desember'];
+  const waktuStr = hariIndo[now.getDay()] + ', ' +
+                   now.getDate() + ' ' + bulanIndo[now.getMonth()] + ' ' + now.getFullYear() +
+                   ' — ' +
+                   String(now.getHours()).padStart(2,'0') + ':' +
+                   String(now.getMinutes()).padStart(2,'0') + ':' +
+                   String(now.getSeconds()).padStart(2,'0') + ' WIB';
+  
+  document.getElementById('buktiWaktu').textContent = waktuStr;
+  document.getElementById('bukti_suami_nama').textContent = namaS;
+  document.getElementById('bukti_istri_nama').textContent = namaI;
+  document.getElementById('buktiYear').textContent = now.getFullYear();
+  
+  // Sembunyikan halaman form, tampilkan halaman sukses
+  document.querySelector('.container').style.display = 'none';
+  const sp = document.getElementById('successPage');
+  sp.style.display = 'flex';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
   
   if (CONFIG.DEBUG) {
     console.log('Submit success:', response);
   }
+}
+
+// Kembali ke form kosong
+function kembaliKeForm() {
+  document.getElementById('successPage').style.display = 'none';
+  document.querySelector('.container').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Handle submit error

@@ -26,6 +26,23 @@
       </div>
 
       <form id="absensiForm">
+
+        <!-- ===== RENCANA AKAD NIKAH ===== -->
+        <div class="couple-section akad-section">
+          <div class="section-title">💍 RENCANA AKAD NIKAH</div>
+
+          <div class="form-group">
+            <label>Hari & Tanggal Akad Nikah <span class="required">*</span></label>
+            <!-- Hidden input menyimpan nilai YYYY-MM-DD -->
+            <input type="hidden" id="tgl_akad">
+            <!-- Display button -->
+            <div id="tgl_akad_display" class="date-display" tabindex="0" role="button" aria-label="Pilih tanggal akad nikah">
+              <span class="date-display-text">Pilih tanggal akad nikah</span>
+              <span class="date-display-icon">💒</span>
+            </div>
+          </div>
+        </div>
+
         <!-- DATA CALON SUAMI -->
         <div class="couple-section">
           <div class="section-title">👨 DATA CALON SUAMI</div>
@@ -43,9 +60,7 @@
 
             <div class="form-group">
               <label>Tanggal Lahir <span class="required">*</span></label>
-              <!-- Hidden input menyimpan nilai YYYY-MM-DD untuk form submission -->
               <input type="hidden" id="suami_tanggalLahir">
-              <!-- Display button yang menampilkan tanggal terpilih -->
               <div id="suami_tanggalLahir_display" class="date-display" tabindex="0" role="button" aria-label="Pilih tanggal lahir calon suami">
                 <span class="date-display-text">Pilih tanggal lahir</span>
                 <span class="date-display-icon">📅</span>
@@ -210,6 +225,15 @@
             <td class="bukti-td-label">Nama Lengkap</td>
             <td class="bukti-td-sep">:</td>
             <td class="bukti-td-val" id="bukti_istri_nama">-</td>
+          </tr>
+        </table>
+
+        <div class="bukti-section-label" style="margin-top:16px;">&#128146; Rencana Akad Nikah</div>
+        <table class="bukti-tabel">
+          <tr>
+            <td class="bukti-td-label">Tanggal Akad</td>
+            <td class="bukti-td-sep">:</td>
+            <td class="bukti-td-val" id="bukti_tgl_akad">-</td>
           </tr>
         </table>
       </div>

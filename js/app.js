@@ -36,7 +36,7 @@ function collectFormData() {
   const tglAkadRaw = document.getElementById('tgl_akad').value;
 
   return {
-    tglAkad: formatTanggalDenganHari(tglAkadRaw), // {{TGL_AKAD}} di backend
+    tanggalAkad: formatTanggalDenganHari(tglAkadRaw), // → formData.tanggalAkad di backend → {{TGL_AKAD}} di Google Docs
     suami: {
       namaLengkap: document.getElementById('suami_namaLengkap').value.trim(),
       tempatLahir: document.getElementById('suami_tempatLahir').value.trim(),

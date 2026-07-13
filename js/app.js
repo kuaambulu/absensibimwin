@@ -63,14 +63,16 @@ async function submitToGoogleScript(formData) {
   const timeoutId = setTimeout(() => controller.abort(), CONFIG.TIMEOUT);
   
   try {
+    // BUG FIX: Gunakan URLSearchParams agar tidak kena blokir CORS oleh GAS
+    const params = new URLSearchParams();
+    params.append('data', JSON.stringify(formData));
+
     const response = await fetch(CONFIG.API_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
+      mode: 'no-cors', // Penting agar tidak ada preflight
+      body: params,    // Kirim sebagai form-encoded, BUKAN json
       signal: controller.signal
+      // Header Content-Type dihapus!
     });
     
     clearTimeout(timeoutId);
@@ -78,11 +80,9 @@ async function submitToGoogleScript(formData) {
     
   } catch (error) {
     clearTimeout(timeoutId);
-    
     if (error.name === 'AbortError') {
       throw new Error('Request timeout. Silakan coba lagi.');
     }
-    
     throw error;
   }
 }

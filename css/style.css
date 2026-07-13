@@ -15,6 +15,7 @@ body {
   min-height: 100vh;
   padding: 20px;
   position: relative;
+  /* Paksa warna body agar tidak ikut dark mode sistem */
   color-scheme: light;
   color: #111827;
   background-color: #f0fdf4;
@@ -63,6 +64,7 @@ body::before {
   filter: drop-shadow(0 4px 12px rgba(21, 128, 61, 0.3));
 }
 
+/* Fallback for old logo div */
 .logo {
   width: 50px;
   height: 50px;
@@ -127,33 +129,6 @@ body::before {
   color-scheme: light;
 }
 
-/* ============================================
-   SEKSI AKAD NIKAH - Ungu / Merah Muda
-   ============================================ */
-.akad-section {
-  background: #faf5ff;
-  border: 2px solid #ddd6fe;
-}
-
-.akad-section .section-title {
-  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
-}
-
-.akad-section .date-display {
-  border-color: #ddd6fe;
-}
-
-.akad-section .date-display:hover,
-.akad-section .date-display:focus {
-  border-color: #7c3aed;
-  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-}
-
-.akad-section label {
-  color: #7c3aed;
-}
-
 /* Form Elements */
 .form-group {
   margin-bottom: 25px;
@@ -202,6 +177,7 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
 }
 
+/* Error state */
 input.error,
 textarea.error,
 canvas.error {
@@ -279,11 +255,13 @@ canvas {
   height: 200px;
   border: 2px dashed #86efac;
   border-radius: 8px;
+  /* PAKSA background putih - tidak ikut dark mode */
   background: #ffffff !important;
   background-color: #ffffff !important;
   cursor: crosshair;
   touch-action: none;
   display: block;
+  /* Cegah dark mode mengubah warna canvas */
   color-scheme: light;
   forced-color-adjust: none;
 }
@@ -577,13 +555,6 @@ canvas {
   margin-bottom: 10px;
 }
 
-/* Label khusus untuk akad di halaman bukti */
-.bukti-section-label.akad {
-  color: #7c3aed;
-  background: #f5f3ff;
-  border-left-color: #7c3aed;
-}
-
 .bukti-tabel {
   width: 100%;
   border-collapse: collapse;
@@ -612,12 +583,6 @@ canvas {
   vertical-align: top;
 }
 
-/* Highlight tanggal akad di halaman bukti */
-.bukti-td-val.akad-val {
-  color: #7c3aed;
-  font-weight: 700;
-}
-
 /* --- Catatan --- */
 .bukti-catatan {
   margin: 16px 28px;
@@ -636,11 +601,11 @@ canvas {
   text-align: center;
 }
 
-.btn-new-form {
-  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+.btn-ebook {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
   color: #ffffff;
   border: none;
-  padding: 14px 36px;
+  padding: 14px 28px;
   border-radius: 10px;
   font-size: 15px;
   font-weight: 700;
@@ -648,12 +613,22 @@ canvas {
   transition: all 0.3s;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3);
 }
 
-.btn-new-form:hover {
+.btn-ebook:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.35);
+  box-shadow: 0 8px 24px rgba(29, 78, 216, 0.4);
+  color: #ffffff;
+}
+
+.bukti-ebook-caption {
+  margin-top: 10px;
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: center;
 }
 
 /* --- Footer Struk --- */

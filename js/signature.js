@@ -41,9 +41,8 @@ class SignatureCanvas {
     
     this.ctx.scale(dpr, dpr);
     
-    // PENTING: Set background putih agar tidak transparan / ikut dark mode
-    this.ctx.fillStyle = '#ffffff';
-    this.ctx.fillRect(0, 0, displayWidth, displayHeight);
+    // FIX: Bersihkan area agar menjadi transparan
+    this.ctx.clearRect(0, 0, displayWidth, displayHeight);
     
     // Set drawing style
     this.ctx.strokeStyle = '#000000';
@@ -113,9 +112,8 @@ class SignatureCanvas {
     const displayWidth = rect.width || this.canvas.width;
     const displayHeight = rect.height || this.canvas.height;
     
-    // Bersihkan dan isi ulang dengan putih
-    this.ctx.fillStyle = '#ffffff';
-    this.ctx.fillRect(0, 0, displayWidth, displayHeight);
+    // FIX: Bersihkan kanvas kembali menjadi transparan
+    this.ctx.clearRect(0, 0, displayWidth, displayHeight);
     this.hasSignature = false;
   }
   

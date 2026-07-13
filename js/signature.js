@@ -1,5 +1,5 @@
 // ============================================
-// SIGNATURE CANVAS HANDLER - FIXED VERSION
+// SIGNATURE CANVAS HANDLER - TRANSPARENT VERSION
 // ============================================
 
 class SignatureCanvas {
@@ -41,7 +41,7 @@ class SignatureCanvas {
     
     this.ctx.scale(dpr, dpr);
     
-    // FIX: Bersihkan area agar menjadi transparan
+    // FIX: Bersihkan area agar menjadi transparan (tidak lagi diwarnai putih)
     this.ctx.clearRect(0, 0, displayWidth, displayHeight);
     
     // Set drawing style

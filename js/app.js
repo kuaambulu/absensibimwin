@@ -33,6 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Collect all form data
 function collectFormData() {
   return {
+    // Collect all form data (di js/app.js)
+function collectFormData() {
+  return {
+    tanggalAkad: formatTanggalDenganHari(document.getElementById('tgl_akad').value), // Tambahkan baris ini
     suami: {
       namaLengkap: document.getElementById('suami_namaLengkap').value.trim(),
       tempatLahir: document.getElementById('suami_tempatLahir').value.trim(),

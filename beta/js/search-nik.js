@@ -24,7 +24,7 @@
 
 (function () {
   // Ganti dengan URL Web App deployment BETA (spreadsheet baru, terpisah dari produksi)
-  const BETA_API_URL = 'https://script.google.com/macros/s/GANTI_DENGAN_DEPLOYMENT_ID_BETA/exec';
+  const BETA_API_URL = 'https://script.google.com/macros/s/AKfycbxC8B9zjAkrXTcsU_JkPdlujaYGXWPXyo5j8DskZfrpLx7RT_YsQncAwHUmBDs6M9d-Lw/exec';
 
   function setValue(id, value) {
     const el = document.getElementById(id);

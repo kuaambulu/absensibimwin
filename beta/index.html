@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="[BETA] Absensi Digital KUA Kecamatan Ambulu - Bimbingan Perkawinan Calon Pengantin">
+<meta name="keywords" content="KUA Ambulu, Bimbingan Perkawinan, Absensi Digital, Beta">
+<meta name="robots" content="noindex, nofollow">
+<title>[BETA] Absensi BimWin Digital KUA Ambulu</title>
+<link rel="icon" type="image/png" href="https://kuaambulu.github.io/SIKEN9/asset/logo.png">
+<!-- CSS produksi dipakai ulang, tidak diduplikasi -->
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+<img src="https://kuaambulu.github.io/SIKEN9/asset/logo.png" alt="Logo KUA Ambulu" class="logo-image">
+<h1>Absensi Bimbingan Perkawinan</h1>
+<h2>KUA Kecamatan Ambulu <span style="color:#7c3aed;">(BETA)</span></h2>
+<div class="divider"></div>
+</div>
+
+<!-- Form -->
+<div class="form-container">
+
+<div class="success-message" id="successMessage">
+Data berhasil disimpan! Terima kasih atas partisipasinya.
+</div>
+
+<form id="absensiForm">
+
+<!-- [NEW] KOTAK PENCARIAN NIK (khusus beta) -->
+<div class="couple-section">
+<div class="section-title">🔍 CARI DATA PENDAFTARAN (SIMKAH)</div>
+<div class="form-group">
+<label>NIK Calon Suami atau Calon Istri</label>
+<input type="text" id="inputCariNik" placeholder="Masukkan salah satu NIK (16 digit)"
+       maxlength="16" pattern="[0-9]{16}" inputmode="numeric">
+</div>
+<button type="button" class="btn" id="btnCariNik">🔍 Cari &amp; Isi Otomatis</button>
+<p id="statusCariNik" style="margin-top:8px; font-size:0.9em;"></p>
+</div>
+
+<div class="couple-section">
+<div class="section-title">💍 DATA PERNIKAHAN</div>
+<div class="form-group">
+<label>Rencana Tanggal Akad Nikah <span class="required">*</span></label>
+<input type="hidden" id="tgl_akad">
+<div id="tgl_akad_display" class="date-display" tabindex="0" role="button" aria-label="Pilih tanggal akad nikah">
+<span class="date-display-text">Pilih tanggal akad</span>
+<span class="date-display-icon">📅</span>
+</div>
+</div>
+</div>
+
+<!-- DATA CALON SUAMI -->
+<div class="couple-section">
+<div class="section-title">👨 DATA CALON SUAMI</div>
+<div class="form-group">
+<label>Nama Lengkap <span class="required">*</span></label>
+<input type="text" id="suami_namaLengkap" placeholder="Masukkan nama lengkap calon suami" required>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Tempat Lahir <span class="required">*</span></label>
+<input type="text" id="suami_tempatLahir" placeholder="Contoh: Jakarta" required>
+</div>
+<div class="form-group">
+<label>Tanggal Lahir <span class="required">*</span></label>
+<input type="hidden" id="suami_tanggalLahir">
+<div id="suami_tanggalLahir_display" class="date-display" tabindex="0" role="button" aria-label="Pilih tanggal lahir calon suami">
+<span class="date-display-text">Pilih tanggal lahir</span>
+<span class="date-display-icon">📅</span>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label>Alamat Lengkap <span class="required">*</span></label>
+<textarea id="suami_alamatLengkap" placeholder="Masukkan alamat lengkap calon suami" required></textarea>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>NIK <span class="required">*</span></label>
+<input type="text" id="suami_nik" placeholder="16 digit NIK" maxlength="16" pattern="[0-9]{16}" inputmode="numeric" required>
+</div>
+<div class="form-group">
+<label>No. Telp/HP <span class="required">*</span></label>
+<input type="tel" id="suami_noTelp" placeholder="Contoh: 08123456789" pattern="[0-9]{10,13}" inputmode="numeric" required>
+</div>
+</div>
+<div class="form-group">
+<label>Email <span class="required">*</span></label>
+<input type="email" id="suami_email" placeholder="Contoh: nama@email.com" required>
+</div>
+<div class="form-group">
+<label>Tanda Tangan <span class="required">*</span></label>
+<div class="signature-container">
+<p class="signature-hint">Tanda tangan di area putih di bawah ini</p>
+<canvas id="suamiSignatureCanvas"></canvas>
+<button type="button" class="btn btn-clear" onclick="clearSignature('suami')">
+🗑️ Hapus Tanda Tangan
+</button>
+</div>
+</div>
+</div>
+
+<!-- DATA CALON ISTRI -->
+<div class="couple-section">
+<div class="section-title">👰 DATA CALON ISTRI</div>
+<div class="form-group">
+<label>Nama Lengkap <span class="required">*</span></label>
+<input type="text" id="istri_namaLengkap" placeholder="Masukkan nama lengkap calon istri" required>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Tempat Lahir <span class="required">*</span></label>
+<input type="text" id="istri_tempatLahir" placeholder="Contoh: Bandung" required>
+</div>
+<div class="form-group">
+<label>Tanggal Lahir <span class="required">*</span></label>
+<input type="hidden" id="istri_tanggalLahir">
+<div id="istri_tanggalLahir_display" class="date-display" tabindex="0" role="button" aria-label="Pilih tanggal lahir calon istri">
+<span class="date-display-text">Pilih tanggal lahir</span>
+<span class="date-display-icon">📅</span>
+</div>
+</div>
+</div>
+<div class="form-group">
+<label>Alamat Lengkap <span class="required">*</span></label>
+<textarea id="istri_alamatLengkap" placeholder="Masukkan alamat lengkap calon istri" required></textarea>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>NIK <span class="required">*</span></label>
+<input type="text" id="istri_nik" placeholder="16 digit NIK" maxlength="16" pattern="[0-9]{16}" inputmode="numeric" required>
+</div>
+<div class="form-group">
+<label>No. Telp/HP <span class="required">*</span></label>
+<input type="tel" id="istri_noTelp" placeholder="Contoh: 08123456789" pattern="[0-9]{10,13}" inputmode="numeric" required>
+</div>
+</div>
+<div class="form-group">
+<label>Email <span class="required">*</span></label>
+<input type="email" id="istri_email" placeholder="Contoh: nama@email.com" required>
+</div>
+<div class="form-group">
+<label>Tanda Tangan <span class="required">*</span></label>
+<div class="signature-container">
+<p class="signature-hint">Tanda tangan di area putih di bawah ini</p>
+<canvas id="istriSignatureCanvas"></canvas>
+<button type="button" class="btn btn-clear" onclick="clearSignature('istri')">
+🗑️ Hapus Tanda Tangan
+</button>
+</div>
+</div>
+</div>
+
+<!-- Submit Button -->
+<button type="submit" class="btn btn-submit" id="submitBtn">
+📤 Kirim Data
+</button>
+</form>
+
+<div class="loading" id="loading">
+Mengirim data, mohon tunggu...
+</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+<p>© <span id="year"></span> KUA Kecamatan Ambulu. All Rights Reserved. <strong>[BETA]</strong></p>
+<p>By_zainur48</p>
+</div>
+</div>
+
+<!-- HALAMAN SUKSES - Bukti Pendaftaran -->
+<div id="successPage" class="success-page" style="display:none;">
+<div class="success-page-inner">
+<!-- Kop Surat -->
+<div class="bukti-header">
+<div class="bukti-kop">
+<img src="https://kuaambulu.github.io/SIKEN9/asset/logo.png" alt="Logo KUA" class="bukti-logo">
+<div class="bukti-kop-text">
+<div class="bukti-instansi">KEMENTERIAN AGAMA REPUBLIK INDONESIA</div>
+<div class="bukti-kantor">KANTOR URUSAN AGAMA KECAMATAN AMBULU</div>
+<div class="bukti-alamat">Jl. Jember No. 1, Ambulu, Kabupaten Jember, Jawa Timur</div>
+</div>
+</div>
+<div class="bukti-garis-top"></div>
+<div class="bukti-judul-wrap">
+<div class="bukti-judul">BUKTI PENDAFTARAN</div>
+<div class="bukti-subjudul">BIMBINGAN PERKAWINAN CALON PENGANTIN</div>
+</div>
+</div>
+
+<!-- Ikon & Status -->
+<div class="bukti-status">
+<div class="bukti-centang">&#10003;</div>
+<div class="bukti-status-text">Data Berhasil Disimpan</div>
+<div class="bukti-waktu-label">Waktu Pendaftaran:</div>
+<div class="bukti-waktu" id="buktiWaktu">-</div>
+</div>
+
+<!-- Tabel Data -->
+<div class="bukti-body">
+<div class="bukti-section-label">&#128104; Calon Suami</div>
+<table class="bukti-tabel">
+<tr>
+<td class="bukti-td-label">Nama Lengkap</td>
+<td class="bukti-td-sep">:</td>
+<td class="bukti-td-val" id="bukti_suami_nama">-</td>
+</tr>
+</table>
+
+<div class="bukti-section-label" style="margin-top:16px;">&#128112; Calon Istri</div>
+<table class="bukti-tabel">
+<tr>
+<td class="bukti-td-label">Nama Lengkap</td>
+<td class="bukti-td-sep">:</td>
+<td class="bukti-td-val" id="bukti_istri_nama">-</td>
+</tr>
+</table>
+</div>
+
+<!-- Catatan -->
+<div class="bukti-catatan">
+<p>Harap simpan bukti ini sebagai tanda telah mendaftarkan kehadiran pada kegiatan Bimbingan Perkawinan di KUA Kecamatan Ambulu.</p>
+</div>
+
+<!-- Tombol -->
+<div class="bukti-actions">
+<a class="btn btn-ebook"
+href="https://drive.google.com/file/d/1nN_Ci2EkkPWPZ4GpsFi_aVTUKXFZiRfk/view?usp=drivesdk"
+target="_blank" rel="noopener noreferrer">
+&#128218; Baca E-Book Fondasi Keluarga Sakinah
+</a>
+<p class="bukti-ebook-caption">Bacaan Mandiri Calon Pengantin — Kementerian Agama RI</p>
+</div>
+
+<!-- Footer Struk -->
+<div class="bukti-footer">
+<div class="bukti-garis-bottom"></div>
+<p>&#169; <span id="buktiYear"></span> KUA Kecamatan Ambulu &nbsp;|&nbsp; By_zainur48 &nbsp;|&nbsp; BETA</p>
+</div>
+</div>
+</div>
+
+<!--
+  External Scripts
+  - config.js dan search-nik.js: versi LOKAL beta (config.js beda API_URL,
+    search-nik.js memang fitur baru khusus beta)
+  - signature.js, validation.js, app.js: DI-REFERENCE dari produksi (../js/)
+    supaya tidak ada duplikasi kode dan otomatis ikut update kalau produksi
+    diperbaiki. search-nik.js WAJIB dimuat setelah validation.js.
+-->
+<script src="js/config.js"></script>
+<script src="../js/signature.js"></script>
+<script src="../js/validation.js"></script>
+<script src="js/search-nik.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

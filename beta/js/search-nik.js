@@ -140,8 +140,6 @@
     btnCari       = document.getElementById('btnCariNik');
     statusEl      = document.getElementById('statusCariNik');
 
-    const btnLangsungManual = document.getElementById('btnLangsungManual');
-    const btnGantiNik       = document.getElementById('btnGantiNik');
     const btnModalManual    = document.getElementById('btnModalManual');
     const btnModalKembali   = document.getElementById('btnModalKembali');
 
@@ -164,16 +162,6 @@
           cariDataByNik(inputNik.value);
         }
       });
-    }
-
-    // Link "isi manual tanpa pencarian" di bawah kotak NIK
-    if (btnLangsungManual) {
-      btnLangsungManual.addEventListener('click', tampilkanForm);
-    }
-
-    // Tombol "← Cari NIK lain" di dalam form
-    if (btnGantiNik) {
-      btnGantiNik.addEventListener('click', tampilkanPencarian);
     }
 
     // Popup: "Masukkan Manual" -> tutup popup, langsung ke form kosong

@@ -54,13 +54,29 @@ beta/
 
 ## Cara pakai fitur pencarian NIK
 
-1. Masukkan salah satu NIK (suami **atau** istri) di kotak "🔍 Cari Data Pendaftaran (SIMKAH)".
-2. Klik **Cari & Isi Otomatis**.
-3. Yang terisi otomatis: **Nama Lengkap, Alamat Lengkap, NIK** (suami & istri),
-   dan **Tanggal Akad**.
-4. Yang **tetap harus diisi manual**: Tempat Lahir, Tanggal Lahir, No. Telp/HP,
-   Email, dan Tanda Tangan (keduanya) — sengaja tidak diambil otomatis.
-5. Submit seperti biasa; data tersimpan ke sheet `HADIR` di spreadsheet BETA
+1. **Tampilan awal** hanya kotak "🔍 Cari Data Pendaftaran (SIMKAH)" — form absensi
+   belum terlihat sama sekali.
+2. Masukkan salah satu NIK (suami **atau** istri), klik **Cari & Isi Otomatis**
+   (atau tekan Enter).
+3. **Kalau data ditemukan**: kotak pencarian otomatis hilang, form absensi
+   muncul dan terisi otomatis untuk:
+   - Nama Lengkap, Alamat Lengkap, NIK (suami & istri)
+   - Tanggal Akad
+   - Tanggal Lahir (suami & istri) — **hasil estimasi dari NIK** (digit ke-7–12
+     NIK = tanggal lahir sesuai aturan NIK Indonesia). Kalau ternyata kurang
+     tepat, catin/user tinggal klik ulang date-picker-nya dan pilih tanggal
+     yang benar — tidak ada validasi ketat yang mengunci nilai ini.
+4. **Kalau NIK tidak ditemukan**: muncul popup "Periksa Kembali inputan NIK Anda"
+   dengan dua tombol:
+   - **Masukkan Manual** → langsung ke form kosong, isi semua secara manual.
+   - **Kembali Isi NIK** → popup tertutup, kembali ke kotak pencarian untuk
+     coba NIK lain.
+5. Ada juga link kecil "Atau isi form secara manual tanpa pencarian" di bawah
+   kotak NIK, dan tombol "← Cari NIK lain / ulangi pencarian" di dalam form —
+   keduanya untuk berpindah tampilan tanpa harus lewat pencarian/popup.
+6. Yang **tetap harus diisi manual** apa pun jalurnya: Tempat Lahir (suami &
+   istri), No. Telp/HP, Email, dan Tanda Tangan (keduanya).
+7. Submit seperti biasa; data tersimpan ke sheet `HADIR` di spreadsheet BETA
    (bukan spreadsheet produksi).
 
 ## Catatan

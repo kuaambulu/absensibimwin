@@ -31,17 +31,22 @@ Data berhasil disimpan! Terima kasih atas partisipasinya.
 
 <form id="absensiForm">
 
-<!-- [NEW] KOTAK PENCARIAN NIK (khusus beta) -->
-<div class="couple-section">
+<!-- [NEW] KOTAK PENCARIAN NIK (tampilan awal, khusus beta) -->
+<div class="couple-section" id="searchSection">
 <div class="section-title">🔍 CARI DATA PENDAFTARAN (SIMKAH)</div>
+<p style="font-size:0.9em; color:#6b7280; margin:0 0 14px;">Masukkan NIK calon suami atau calon istri untuk mengambil data pendaftaran secara otomatis.</p>
 <div class="form-group">
 <label>NIK Calon Suami atau Calon Istri</label>
 <input type="text" id="inputCariNik" placeholder="Masukkan salah satu NIK (16 digit)"
        maxlength="16" pattern="[0-9]{16}" inputmode="numeric">
 </div>
-<button type="button" class="btn" id="btnCariNik">🔍 Cari &amp; Isi Otomatis</button>
+<button type="button" class="btn btn-submit" id="btnCariNik">🔍 Cari &amp; Isi Otomatis</button>
 <p id="statusCariNik" style="margin-top:8px; font-size:0.9em;"></p>
+<button type="button" id="btnLangsungManual" style="margin-top:6px; background:none; border:none; color:#6b7280; text-decoration:underline; cursor:pointer; font-size:0.85em; padding:0;">Atau isi form secara manual tanpa pencarian</button>
 </div>
+
+<!-- [NEW] Bungkus seluruh field form, disembunyikan sampai data ditemukan / user pilih manual -->
+<div id="formFields" style="display:none;">
 
 <div class="couple-section">
 <div class="section-title">💍 DATA PERNIKAHAN</div>
@@ -74,6 +79,7 @@ Data berhasil disimpan! Terima kasih atas partisipasinya.
 <span class="date-display-text">Pilih tanggal lahir</span>
 <span class="date-display-icon">📅</span>
 </div>
+<p style="font-size:0.78em; color:#9ca3af; margin:4px 0 0;">Terisi otomatis dari NIK (estimasi) — koreksi di sini kalau kurang tepat.</p>
 </div>
 </div>
 <div class="form-group">
@@ -125,6 +131,7 @@ Data berhasil disimpan! Terima kasih atas partisipasinya.
 <span class="date-display-text">Pilih tanggal lahir</span>
 <span class="date-display-icon">📅</span>
 </div>
+<p style="font-size:0.78em; color:#9ca3af; margin:4px 0 0;">Terisi otomatis dari NIK (estimasi) — koreksi di sini kalau kurang tepat.</p>
 </div>
 </div>
 <div class="form-group">
@@ -157,14 +164,33 @@ Data berhasil disimpan! Terima kasih atas partisipasinya.
 </div>
 </div>
 
+<!-- Tombol kembali ke pencarian (opsional, jaga-jaga user salah pencet manual) -->
+<button type="button" id="btnGantiNik" style="margin-bottom:12px; background:none; border:none; color:#6b7280; text-decoration:underline; cursor:pointer; font-size:0.85em; padding:0; display:block;">← Cari NIK lain / ulangi pencarian</button>
+
 <!-- Submit Button -->
 <button type="submit" class="btn btn-submit" id="submitBtn">
 📤 Kirim Data
 </button>
+
+</div><!-- /#formFields -->
+
 </form>
 
 <div class="loading" id="loading">
 Mengirim data, mohon tunggu...
+</div>
+</div>
+
+<!-- [NEW] POPUP: NIK tidak ditemukan -->
+<div id="nikNotFoundModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+<div style="background:#fff; border-radius:16px; padding:28px 24px; width:100%; max-width:340px; box-shadow:0 20px 60px rgba(0,0,0,0.3); text-align:center; font-family:'Segoe UI', sans-serif;">
+<div style="font-size:40px; margin-bottom:8px;">⚠️</div>
+<div style="font-size:16px; font-weight:700; color:#b91c1c; margin-bottom:6px;">Data Tidak Ditemukan</div>
+<div style="font-size:14px; color:#374151; margin-bottom:20px;">Periksa Kembali inputan NIK Anda</div>
+<div style="display:grid; gap:10px;">
+<button type="button" id="btnModalManual" style="padding:12px; border:none; background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;">Masukkan Manual</button>
+<button type="button" id="btnModalKembali" style="padding:12px; border:2px solid #e5e7eb; background:#fff; color:#374151; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;">Kembali Isi NIK</button>
+</div>
 </div>
 </div>
 
